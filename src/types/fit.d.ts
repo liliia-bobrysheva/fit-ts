@@ -1,13 +1,15 @@
-import { Types } from "./types";
+import { FitBaseType, Types } from "./types";
 
 export type SpeedUnit = "m/s" | "mph" | "km/h";
 export type LengthUnit = "m" | "mi" | "km";
 export type TemperatureUnit = "°C" | "kelvin" | "fahrenheit";
 
+export type UnitSet<T> = { [key: T]: Unit }
+
 export type Options = {
-  speedUnits: { [key: SpeedUnit]: Unit };
-  lengthUnits: { [key: LengthUnit]: Unit };
-  temperatureUnits: { [key: TemperatureUnit]: Unit };
+  speedUnits: UnitSet<SpeedUnit>;
+  lengthUnits: UnitSet<LengthUnit>;
+  temperatureUnits: UnitSet<TemperatureUnit>;
 };
 
 export interface Unit {
@@ -82,6 +84,16 @@ export interface MessageField {
   units: string;
 }
 
+export type AdditionalTypes = "date_time"
+  | "local_date_time"
+  | "uint32_array"
+  | "uint16_array"
+  | "byte_array";
+
+export type MessageDataTypeTMP = FitBaseType | AdditionalTypes;
+
+export type AllTypes = FitBaseType | AdditionalTypes | keyof Types;
+
 export type ParserMode = "cascade" | "list" | "both";
 
 export interface ParserOptions {
@@ -136,3 +148,44 @@ export interface FITObjectList extends FITObject {
 }
 
 type FITObjectMix = FITObjectCascade & FITObjectList;
+
+export interface FieldDefinition {
+  type: FitBaseType | AdditionalTypes;
+  fDefNo: number; // one of the keys of FIT.messages[x] object, e.g. for FIT.messages[2][7] it is 7
+  size: number; // size of a field in bits
+  endianAbility: boolean;
+  littleEndian: boolean;
+  baseTypeNo: number; // one of the keys of FIT.types.fit_base_type TODO - keys in fit.ts do not fully match documentation - need to investigate why
+  name: string; // name of the field definition, e.g. FIT.messages[18][253].field = 'timestamp'
+  dataType: number; // TODO check what is the difference between this field and baseTypeNo
+}
+
+export interface DeveloperDataFieldDefinition extends FieldDefinition {
+  scale: any;
+  offset: any;
+  developerDataIndex: any;
+  isDeveloperField: any;
+}
+
+export interface MessageTypeDefinition {
+  littleEndian: boolean;
+  globalMessageNumber: any;
+  numberOfFields: number;
+  fieldDefs: FieldDefinition[],
+};
+
+export type FieldsTmp = "speed" | "enhanced_speed" | "vertical_speed" | "avg_speed" | "max_speed" | "speed_1s" | "ball_speed" | "enhanced_avg_speed" | "enhanced_max_speed"
+| "avg_pos_vertical_speed" | "max_pos_vertical_speed" | "avg_neg_vertical_speed" | "max_neg_vertical_speed" | "distance" | "total_distance" | "enhanced_avg_altitude" | "enhanced_min_altitude"
+| "enhanced_max_altitude" | "enhanced_altitude" | "height" | "odometer" | "avg_stroke_distance" | "min_altitude" | "avg_altitude" | "max_altitude" | "total_ascent" | "total_descent" 
+| "altitude" | "cycle_length" | "auto_wheelsize" | "custom_wheelsize" | "gps_accuracy" | "temperature" | "avg_temperature" | "max_temperature" ;
+
+export interface RecordTmp {
+  messageType: MessageName | null,
+  nextIndex: number,
+  message: any;
+};
+
+export interface DataItem {
+  value: any;
+  [key: number]: any;
+}

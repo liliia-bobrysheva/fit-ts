@@ -112,11 +112,11 @@ export type MesgNum =
   | "mfg_range_max";
 
 export type Checksum = "clear" | "ok";
-export type FileFlags = "0" | "read" | "write" | "erase";
+export type FileFlags = 0 | "read" | "write" | "erase";
 export type MesgCount = "num_per_file" | "max_per_file" | "max_per_file_type";
-export type DateTime = "0" | "min";
-export type LocalDateTime = "0" | "min";
-export type MessageIndex = "0" | "mask" | "reserved" | "selected";
+export type DateTime = 0 | "min";
+export type LocalDateTime = 0 | "min";
+export type MessageIndex = 0 | "mask" | "reserved" | "selected";
 export type Gender = "female" | "male";
 export type Language =
   | "english"
@@ -160,7 +160,7 @@ export type Language =
   | "custom";
 
 export type LanguageBits0 =
-  | "0"
+  | 0
   | "english"
   | "french"
   | "italian"
@@ -171,7 +171,7 @@ export type LanguageBits0 =
   | "danish";
 
 export type LanguageBits1 =
-  | "0"
+  | 0
   | "dutch"
   | "finnish"
   | "greek"
@@ -182,7 +182,7 @@ export type LanguageBits1 =
   | "slovakian";
 
 export type LanguageBits2 =
-  | "0"
+  | 0
   | "slovenian"
   | "swedish"
   | "russian"
@@ -193,7 +193,7 @@ export type LanguageBits2 =
   | "farsi";
 
 export type LanguageBits3 =
-  | "0"
+  | 0
   | "bulgarian"
   | "romanian"
   | "chinese"
@@ -204,7 +204,7 @@ export type LanguageBits3 =
   | "hebrew";
 
 export type LanguageBits4 =
-  | "0"
+  | 0
   | "brazilian_portuguese"
   | "indonesian"
   | "malaysian"
@@ -1731,7 +1731,7 @@ export type AutoActivityDetect =
   | "elliptical"
   | "sedentary";
 export type SupportedExdScreenLayouts =
-  | "0"
+  | 0
   | "full_screen"
   | "half_vertical"
   | "half_horizontal"
@@ -3125,7 +3125,7 @@ export interface Types {
   language_bits_1: { [key: number]: LanguageBits1 };
   language_bits_2: { [key: number]: LanguageBits2 };
   language_bits_3: { [key: number]: LanguageBits3 };
-  language_bits_4: { [key: number]: LanguageBits3 };
+  language_bits_4: { [key: number]: LanguageBits4 };
   time_zone: { [key: number]: TimeZone };
   display_measure: { [key: number]: DisplayMeasure };
   display_heart: { [key: number]: DisplayHeart };
@@ -3273,3 +3273,5 @@ export interface Types {
   dive_backlight_mode: { [key: number]: DiveBacklightMode };
   favero_product: { [key: number]: FaveroProduct };
 }
+
+export type TypeNames = keyof Types;

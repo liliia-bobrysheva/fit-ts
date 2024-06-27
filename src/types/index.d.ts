@@ -1,4 +1,4 @@
-import { FITInterface, ParserOptions } from "../fit";
+import { FITInterface } from "../fit";
 import { Types } from "./types";
 
-export { FITInterface, ParserOptions, Types };
+export { FITInterface };
