@@ -1,8 +1,9 @@
+import { Session } from "./tmp";
 import { FitBaseType, Types } from "./types";
 
 export type SpeedUnit = "m/s" | "mph" | "km/h";
 export type LengthUnit = "m" | "mi" | "km";
-export type TemperatureUnit = "°C" | "kelvin" | "fahrenheit";
+export type TemperatureUnit = "celsius" | "kelvin" | "fahrenheit";
 
 export type UnitSet<T> = { [key: T]: Unit }
 
@@ -28,7 +29,7 @@ export interface FITInterface {
 
 export interface Message {
   name: MessageName;
-  [key: number]: MessageField;
+  [key: number]: MessageAttributes;
 }
 
 export type MessageName =
@@ -76,11 +77,11 @@ export type MessageName =
   | "dive_alarm"
   | "dive_summary";
 
-export interface MessageField {
-  field: string;
-  type: string;
-  scale: number | null | string; // TODO investigate why there are string values
-  offset: number | string; // TODO confirm if string is really needed
+export interface MessageAttributes {
+  field: AllTypes | string; // string is added here because custom fields with basic types are not present in AllTypes
+  type: AllTypes;
+  scale: number | null;
+  offset: number;
   units: string;
 }
 
@@ -88,7 +89,9 @@ export type AdditionalTypes = "date_time"
   | "local_date_time"
   | "uint32_array"
   | "uint16_array"
-  | "byte_array";
+  | "byte_array"
+  | "bool"
+  | "device_index";
 
 export type MessageDataTypeTMP = FitBaseType | AdditionalTypes;
 
@@ -119,7 +122,9 @@ export interface FITObject {
   protocolVersion: number;
   profileVersion: number;
   software: any; // TODO define
-  // TODO check if we need a prop for every MessageName type
+  // TODO check if we can predefine a prop for every MessageName type
+  sessions: Session[];
+  laps: Lap[];
 }
 
 export interface FITObjectCascade extends FITObject {
@@ -150,7 +155,7 @@ export interface FITObjectList extends FITObject {
 type FITObjectMix = FITObjectCascade & FITObjectList;
 
 export interface FieldDefinition {
-  type: FitBaseType | AdditionalTypes;
+  type: AllTypes; // TODO check if FitBaseType | AdditionalTypes would be better
   fDefNo: number; // one of the keys of FIT.messages[x] object, e.g. for FIT.messages[2][7] it is 7
   size: number; // size of a field in bits
   endianAbility: boolean;
@@ -158,13 +163,16 @@ export interface FieldDefinition {
   baseTypeNo: number; // one of the keys of FIT.types.fit_base_type TODO - keys in fit.ts do not fully match documentation - need to investigate why
   name: string; // name of the field definition, e.g. FIT.messages[18][253].field = 'timestamp'
   dataType: number; // TODO check what is the difference between this field and baseTypeNo
+  isDeveloperField?: boolean;
+  scale?: number | null;
+  offset?: number | null;
 }
 
 export interface DeveloperDataFieldDefinition extends FieldDefinition {
-  scale: any;
-  offset: any;
+  scale?: number | null;
+  offset?: number | null;
   developerDataIndex: any;
-  isDeveloperField: any;
+  isDeveloperField: boolean;
 }
 
 export interface MessageTypeDefinition {
@@ -174,18 +182,24 @@ export interface MessageTypeDefinition {
   fieldDefs: FieldDefinition[],
 };
 
-export type FieldsTmp = "speed" | "enhanced_speed" | "vertical_speed" | "avg_speed" | "max_speed" | "speed_1s" | "ball_speed" | "enhanced_avg_speed" | "enhanced_max_speed"
-| "avg_pos_vertical_speed" | "max_pos_vertical_speed" | "avg_neg_vertical_speed" | "max_neg_vertical_speed" | "distance" | "total_distance" | "enhanced_avg_altitude" | "enhanced_min_altitude"
-| "enhanced_max_altitude" | "enhanced_altitude" | "height" | "odometer" | "avg_stroke_distance" | "min_altitude" | "avg_altitude" | "max_altitude" | "total_ascent" | "total_descent" 
-| "altitude" | "cycle_length" | "auto_wheelsize" | "custom_wheelsize" | "gps_accuracy" | "temperature" | "avg_temperature" | "max_temperature" ;
-
-export interface RecordTmp {
-  messageType: MessageName | null,
+export interface Record {
+  messageType: MessageName | "definition", // TODO investigate value "definition" that is used in binary.ts method readRecord
   nextIndex: number,
-  message: any;
+  message?: any;
+  /* TODO add type for message */
 };
 
 export interface DataItem {
   value: any;
   [key: number]: any;
+}
+
+export interface FieldDescription {
+  developer_data_index: number;
+  field_definition_number: number;
+  fit_base_type_id: number;
+  field_name: string;
+  units: string;
+  scale?: number | null;
+  offset? : number | null;
 }
