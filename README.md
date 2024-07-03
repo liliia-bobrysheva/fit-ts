@@ -1,4 +1,4 @@
-# fit-file-parser
+# fit-parse
 
 > Parse your .FIT files easily, directly from JS.
 > Written in ES6. (Hope to change)
@@ -7,7 +7,7 @@
 ## Install
 
 ```
-$ npm install fit-file-parser --save
+$ npm install fit-parse --save
 ```
 
 ## How to use
@@ -16,7 +16,7 @@ See in [examples](./examples) folder:
 
 ```javascript
 // Require the module
-var FitParser = require('./../dist/fit-file-parser.js').default;
+var FitParser = require('./../dist/fit-parse.js').default;
 
 // Read a .FIT file
 var fs = require('fs');
