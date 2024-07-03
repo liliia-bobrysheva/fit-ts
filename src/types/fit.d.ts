@@ -1,5 +1,18 @@
+import { CoursePoint } from "./course-point";
+import { DeveloperDataId } from "./developer-data-id";
+import { Device } from "./device";
+import { DiveGas } from "./dive-gases";
+import { FitEvent } from "./fit-event";
+import { FieldDescription } from "./field-description";
+import { FileId } from "./file_id";
+import { Monitoring } from "./monitoring";
+import { MonitoringInfo } from "./monitoring-info";
+import { Sport } from "./sport";
+import { StressLevel } from "./stress-level";
 import { Session } from "./tmp";
 import { FitBaseType, Types } from "./types";
+import { Length } from "./length";
+import { FitRecord } from "./record";
 
 export type SpeedUnit = "m/s" | "mph" | "km/h";
 export type LengthUnit = "m" | "mi" | "km";
@@ -108,48 +121,48 @@ export interface ParserOptions {
   mode: ParserMode;
 }
 
-export interface Activity {
-  sessions: any;
-  events: any;
-  hrv: any;
-  device_infos: any[];
-  developer_data_ids: any[];
-  field_descriptions: any[];
-  sports: any[];
-}
-
 export interface FITObject {
   protocolVersion: number;
   profileVersion: number;
-  software: any; // TODO define
+  software?: any; // TODO define
   // TODO check if we can predefine a prop for every MessageName type
-  sessions: Session[];
-  laps: Lap[];
+  activity?: Activity;
+  [key: string]: any; // TODO - get rid of it ASAP
 }
 
 export interface FITObjectCascade extends FITObject {
   activity: Activity;
 }
 
+export interface Activity {
+  sessions?: Session[];
+  events?: FitEvent[];
+  hrv?: HRV[];
+  device_infos?: Device[];
+  developer_data_ids?: DeveloperDataId[];
+  field_descriptions?: FieldDescription[];
+  sports?: Sport[];
+}
+
 export interface FITObjectList extends FITObject {
-  sessions: any[];
-  laps: any[];
-  lengths: any[];
-  records: any[];
-  events: any[];
-  device_infos: any[];
-  developer_data_ids: any[];
-  field_descriptions: any[];
-  hrv: any[];
-  dive_gases: any[];
-  course_points: any[];
-  sports: any[];
-  devices: any[];
-  monitors: any[];
-  stress: any[];
-  file_ids: any[];
-  monitor_info: any[];
-  definitions: any[];
+  sessions?: Session[];
+  laps?: Lap[];
+  lengths?: Length[];
+  records?: FitRecord[];
+  events?: FitEvent[];
+  device_infos?: Device[];
+  developer_data_ids?: DeveloperDataId[];
+  field_descriptions?: FieldDescription[];
+  hrv?: HRV[];
+  dive_gases?: DiveGas[];
+  course_points?: CoursePoint[];
+  sports?: Sport[];
+  devices?: Device[];
+  monitors?: Monitoring[];
+  stress?: StressLevel[];
+  file_ids?: FileId[];
+  monitor_info?: MonitoringInfo[];
+  definitions?: FieldDescription[]; // TODO unclear what is the difference between field_descriptions and definitions
 }
 
 type FITObjectMix = FITObjectCascade & FITObjectList;
@@ -192,14 +205,4 @@ export interface Record {
 export interface DataItem {
   value: any;
   [key: number]: any;
-}
-
-export interface FieldDescription {
-  developer_data_index: number;
-  field_definition_number: number;
-  fit_base_type_id: number;
-  field_name: string;
-  units: string;
-  scale?: number | null;
-  offset? : number | null;
 }

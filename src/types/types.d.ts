@@ -369,7 +369,7 @@ export type DisplayPosition =
 
 export type SwitchState = "off" | "on" | "auto";
 
-export type Sport =
+export type SportTypes =
   | "generic"
   | "running"
   | "cycling"
@@ -719,7 +719,7 @@ export type GoalRecurrence =
   | "custom";
 export type GoalSource = "auto" | "community" | "user";
 export type Schedule = "workout" | "course";
-export type CoursePoint =
+export type CoursePointType =
   | "generic"
   | "summit"
   | "valley"
