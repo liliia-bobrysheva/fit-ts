@@ -8,6 +8,7 @@ export default class FitParser {
       lengthUnit: options.lengthUnit || 'm',
       temperatureUnit: options.temperatureUnit || 'celsius',
       elapsedRecordField: options.elapsedRecordField || false,
+      pressureUnit: options.pressureUnit || 'bar',
       mode: options.mode || 'list',
     };
   }
@@ -89,6 +90,7 @@ export default class FitParser {
     const file_ids = [];
     const monitor_info = [];
     const lengths = [];
+    const tank_updates = [];
 
     let loopIndex = headerLength;
     const messageTypes = [];
@@ -178,6 +180,9 @@ export default class FitParser {
         case 'software':
           fitObj.software = message;
           break;
+        case 'tank_update':
+          tank_updates.push(message);
+          break;
         default:
           if (messageType !== '') {
             fitObj[messageType] = message;
@@ -218,6 +223,7 @@ export default class FitParser {
       fitObj.file_ids = file_ids;
       fitObj.monitor_info = monitor_info;
       fitObj.definitions = definitions;
+      fitObj.tank_updates = tank_updates;
     }
 
     callback(null, fitObj);

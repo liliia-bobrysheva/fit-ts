@@ -58,6 +58,12 @@ export const FIT = {
         offset: 32
       }
     },
+    pressureUnits: {
+      bar: {
+        multiplier: 0.01,
+        offset: 0,
+      },
+    },
   },
   messages: {
     0: {
@@ -842,6 +848,12 @@ export const FIT = {
       10: { field: 'dive_number', type: 'uint32', scale: null, offset: 0, units: ''},
       11: { field: 'bottom_time', type: 'uint32', scale: null, offset: 0, units: 's'}
     },
+    319: {
+      name: 'tank_update',
+      253: { field: 'timestamp', type: 'date_time', scale: null, offset: 0, units: 's' },
+      0: { field: 'sensor', type: 'uint16', scale: null, offset: 0, units: '' },
+      1: { field: 'pressure', type: 'uint16', scale: null, offset: 0, units: 'bar'},
+    },
   },
   types: {
     file: {
@@ -954,6 +966,8 @@ export const FIT = {
       268: 'dive_summary',
       285: 'jump',
       317: 'climb_pro',
+      319: 'tank_pressure',
+      323: 'tank_summary',
       65280: 'mfg_range_min',
       65534: 'mfg_range_max',
     },
