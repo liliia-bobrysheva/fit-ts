@@ -858,8 +858,14 @@ var FIT = exports.FIT = {
     319: {
       name: 'tank_update',
       253: { field: 'timestamp', type: 'date_time', scale: null, offset: 0, units: 's' },
-      0: { field: 'sensor', type: 'uint16', scale: null, offset: 0, units: '' },
+      0: { field: 'sensor', type: 'uint32', scale: null, offset: 0, units: '' },
       1: { field: 'pressure', type: 'uint16', scale: null, offset: 0, units: 'bar' }
+    },
+    323: {
+      name: 'tank_summary',
+      0: { field: 'sensor', type: 'uint32', scale: null, offset: 0, units: '' },
+      1: { field: 'start_pressure', type: 'uint16', scale: null, offset: 0, units: 'bar' },
+      2: { field: 'end_pressure', type: 'uint16', scale: null, offset: 0, units: 'bar' }
     }
   },
   types: {

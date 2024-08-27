@@ -91,6 +91,7 @@ export default class FitParser {
     const monitor_info = [];
     const lengths = [];
     const tank_updates = [];
+    const tank_summary = [];
 
     let loopIndex = headerLength;
     const messageTypes = [];
@@ -183,6 +184,9 @@ export default class FitParser {
         case 'tank_update':
           tank_updates.push(message);
           break;
+        case 'tank_summary':
+          tank_summary.push(message);
+          break;
         default:
           if (messageType !== '') {
             fitObj[messageType] = message;
@@ -224,6 +228,7 @@ export default class FitParser {
       fitObj.monitor_info = monitor_info;
       fitObj.definitions = definitions;
       fitObj.tank_updates = tank_updates;
+      fitObj.tank_summary = tank_summary;
     }
 
     callback(null, fitObj);
