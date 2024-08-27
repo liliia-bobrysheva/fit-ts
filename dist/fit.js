@@ -10,6 +10,8 @@ var metersInOneKilometer = 1000;
 var secondsInOneHour = 3600;
 // according to https://en.wikipedia.org/wiki/Mile
 var metersInOneMile = 1609.344;
+var centiBarsInOneBar = 100;
+var psiInOneBar = 14.5037738;
 
 var FIT = exports.FIT = {
   scConst: 180 / Math.pow(2, 31),
@@ -66,8 +68,16 @@ var FIT = exports.FIT = {
       }
     },
     pressureUnits: {
+      cbar: {
+        multiplier: 1,
+        offset: 0
+      },
       bar: {
-        multiplier: 0.01,
+        multiplier: 1 / centiBarsInOneBar,
+        offset: 0
+      },
+      psi: {
+        multiplier: 1 / centiBarsInOneBar * psiInOneBar,
         offset: 0
       }
     }
@@ -859,13 +869,14 @@ var FIT = exports.FIT = {
       name: 'tank_update',
       253: { field: 'timestamp', type: 'date_time', scale: null, offset: 0, units: 's' },
       0: { field: 'sensor', type: 'uint32', scale: null, offset: 0, units: '' },
-      1: { field: 'pressure', type: 'uint16', scale: null, offset: 0, units: 'bar' }
+      1: { field: 'pressure', type: 'uint16', scale: null, offset: 0, units: 'cbar' }
     },
     323: {
       name: 'tank_summary',
       0: { field: 'sensor', type: 'uint32', scale: null, offset: 0, units: '' },
-      1: { field: 'start_pressure', type: 'uint16', scale: null, offset: 0, units: 'bar' },
-      2: { field: 'end_pressure', type: 'uint16', scale: null, offset: 0, units: 'bar' }
+      1: { field: 'start_pressure', type: 'uint16', scale: null, offset: 0, units: 'cbar' },
+      2: { field: 'end_pressure', type: 'uint16', scale: null, offset: 0, units: 'cbar' },
+      3: { field: 'volume_used', type: 'uint16', scale: null, offset: 0, units: 'cbar' }
     }
   },
   types: {
