@@ -91,10 +91,10 @@ describe('fit parser tests', function () {
                 (0, _chai.expect)(fitObject.tank_updates[0]).to.have.property('sensor');
                 (0, _chai.expect)(fitObject.tank_updates[0]).to.have.property('pressure');
 
-                (0, _chai.expect)(fitObject).to.have.property('tank_summary');
-                (0, _chai.expect)(fitObject.tank_summary[0]).to.have.property('sensor');
-                (0, _chai.expect)(fitObject.tank_summary[0]).to.have.property('start_pressure');
-                (0, _chai.expect)(fitObject.tank_summary[0]).to.have.property('end_pressure');
+                (0, _chai.expect)(fitObject).to.have.property('tank_summaries');
+                (0, _chai.expect)(fitObject.tank_summaries[0]).to.have.property('sensor');
+                (0, _chai.expect)(fitObject.tank_summaries[0]).to.have.property('start_pressure');
+                (0, _chai.expect)(fitObject.tank_summaries[0]).to.have.property('end_pressure');
 
                 done();
             });

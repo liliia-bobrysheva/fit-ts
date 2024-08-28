@@ -80,10 +80,10 @@ describe('fit parser tests', function () {
                 expect(fitObject.tank_updates[0]).to.have.property('sensor');
                 expect(fitObject.tank_updates[0]).to.have.property('pressure');
 
-                expect(fitObject).to.have.property('tank_summary');
-                expect(fitObject.tank_summary[0]).to.have.property('sensor');
-                expect(fitObject.tank_summary[0]).to.have.property('start_pressure');
-                expect(fitObject.tank_summary[0]).to.have.property('end_pressure');
+                expect(fitObject).to.have.property('tank_summaries');
+                expect(fitObject.tank_summaries[0]).to.have.property('sensor');
+                expect(fitObject.tank_summaries[0]).to.have.property('start_pressure');
+                expect(fitObject.tank_summaries[0]).to.have.property('end_pressure');
 
                 done();
             });

@@ -109,7 +109,7 @@ var FitParser = function () {
       var monitor_info = [];
       var lengths = [];
       var tank_updates = [];
-      var tank_summary = [];
+      var tank_summaries = [];
 
       var loopIndex = headerLength;
       var messageTypes = [];
@@ -205,7 +205,7 @@ var FitParser = function () {
             tank_updates.push(message);
             break;
           case 'tank_summary':
-            tank_summary.push(message);
+            tank_summaries.push(message);
             break;
           default:
             if (messageType !== '') {
@@ -248,7 +248,7 @@ var FitParser = function () {
         fitObj.monitor_info = monitor_info;
         fitObj.definitions = definitions;
         fitObj.tank_updates = tank_updates;
-        fitObj.tank_summary = tank_summary;
+        fitObj.tank_summaries = tank_summaries;
       }
 
       callback(null, fitObj);
