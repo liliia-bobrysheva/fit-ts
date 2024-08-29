@@ -74,4 +74,30 @@ describe('fit parser tests', function () {
             });
         });
     });
+
+    it('expects fit with tank_update and tank_summary data to be parsed', function (done) {
+        this.timeout(5000);
+        var fitParser = new _fitParser2.default({ force: true });
+        _fs2.default.readFile('./test/test-diving.fit', function (err, buffer) {
+            if (err) {
+                throw "Unable to read file";
+            }
+            fitParser.parse(buffer, function (fitError, fitObject) {
+                if (fitError) {
+                    throw "Error parsing";
+                }
+                (0, _chai.expect)(fitObject).to.have.property('tank_updates');
+                (0, _chai.expect)(fitObject.tank_updates[0]).to.have.property('timestamp');
+                (0, _chai.expect)(fitObject.tank_updates[0]).to.have.property('sensor');
+                (0, _chai.expect)(fitObject.tank_updates[0]).to.have.property('pressure');
+
+                (0, _chai.expect)(fitObject).to.have.property('tank_summaries');
+                (0, _chai.expect)(fitObject.tank_summaries[0]).to.have.property('sensor');
+                (0, _chai.expect)(fitObject.tank_summaries[0]).to.have.property('start_pressure');
+                (0, _chai.expect)(fitObject.tank_summaries[0]).to.have.property('end_pressure');
+
+                done();
+            });
+        });
+    });
 });

@@ -64,7 +64,29 @@ describe('fit parser tests', function () {
         });
     });
 
+    it('expects fit with tank_update and tank_summary data to be parsed', function (done) {
+        this.timeout(5000);
+        const fitParser = new FitParser({ force: true });
+        fs.readFile('./test/test-diving.fit', (err, buffer) => {
+            if (err) {
+                throw "Unable to read file";
+            }
+            fitParser.parse(buffer, (fitError, fitObject) => {
+                if (fitError) {
+                    throw "Error parsing";
+                }
+                expect(fitObject).to.have.property('tank_updates');
+                expect(fitObject.tank_updates[0]).to.have.property('timestamp');
+                expect(fitObject.tank_updates[0]).to.have.property('sensor');
+                expect(fitObject.tank_updates[0]).to.have.property('pressure');
 
+                expect(fitObject).to.have.property('tank_summaries');
+                expect(fitObject.tank_summaries[0]).to.have.property('sensor');
+                expect(fitObject.tank_summaries[0]).to.have.property('start_pressure');
+                expect(fitObject.tank_summaries[0]).to.have.property('end_pressure');
 
-
+                done();
+            });
+        });
+    });
 });

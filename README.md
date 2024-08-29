@@ -28,6 +28,7 @@ fs.readFile('./example.fit', function (err, content) {
     speedUnit: 'km/h',
     lengthUnit: 'km',
     temperatureUnit: 'kelvin',
+    pressureUnit: 'bar', // accept bar, cbar and psi (default is bar)
     elapsedRecordField: true,
     mode: 'cascade',
   });

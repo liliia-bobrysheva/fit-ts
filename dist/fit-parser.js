@@ -24,6 +24,7 @@ var FitParser = function () {
       lengthUnit: options.lengthUnit || 'm',
       temperatureUnit: options.temperatureUnit || 'celsius',
       elapsedRecordField: options.elapsedRecordField || false,
+      pressureUnit: options.pressureUnit || 'bar',
       mode: options.mode || 'list'
     };
   }
@@ -107,6 +108,8 @@ var FitParser = function () {
       var file_ids = [];
       var monitor_info = [];
       var lengths = [];
+      var tank_updates = [];
+      var tank_summaries = [];
 
       var loopIndex = headerLength;
       var messageTypes = [];
@@ -198,6 +201,12 @@ var FitParser = function () {
           case 'software':
             fitObj.software = message;
             break;
+          case 'tank_update':
+            tank_updates.push(message);
+            break;
+          case 'tank_summary':
+            tank_summaries.push(message);
+            break;
           default:
             if (messageType !== '') {
               fitObj[messageType] = message;
@@ -238,6 +247,8 @@ var FitParser = function () {
         fitObj.file_ids = file_ids;
         fitObj.monitor_info = monitor_info;
         fitObj.definitions = definitions;
+        fitObj.tank_updates = tank_updates;
+        fitObj.tank_summaries = tank_summaries;
       }
 
       callback(null, fitObj);

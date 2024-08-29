@@ -232,6 +232,10 @@ function applyOptions(data, field, options) {
         case 'avg_temperature':
         case 'max_temperature':
             return convertTo(data, 'temperatureUnits', options.temperatureUnit);
+        case 'pressure':
+        case 'start_pressure':
+        case 'end_pressure':
+            return convertTo(data, 'pressureUnits', options.pressureUnit);
         default:
             return data;
     }
