@@ -1499,7 +1499,7 @@ var FIT = exports.FIT = {
       1: 'rest',
       2: 'warmup',
       3: 'cooldown',
-      4: 'recorvery',
+      4: 'recovery',
       5: 'interval',
       6: 'other'
     },
