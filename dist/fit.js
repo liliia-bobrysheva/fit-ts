@@ -1498,7 +1498,10 @@ var FIT = exports.FIT = {
       0: 'active',
       1: 'rest',
       2: 'warmup',
-      3: 'cooldown'
+      3: 'cooldown',
+      4: 'recovery',
+      5: 'interval',
+      6: 'other'
     },
     session_trigger: {
       0: 'activity_end',
