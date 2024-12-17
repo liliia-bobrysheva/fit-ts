@@ -128,6 +128,8 @@ export const FIT = {
       21: { field: 'temperature_setting', type: 'display_measure', scale: null, offset: 0, units: '' },
       22: { field: 'local_id', type: 'user_local_id', scale: null, offset: 0, units: '' },
       23: { field: 'global_id', type: 'byte', scale: null, offset: 0, units: '' },
+      28: { field: 'wake_time', type: 'localtime_into_day', scale: null, offset: 0, units: '' },
+      29: { field: 'sleep_time', type: 'localtime_into_day', scale: null, offset: 0, units: '' },
       30: { field: 'height_setting', type: 'display_measure', scale: null, offset: 0, units: '' },
     },
     4: {
@@ -353,6 +355,8 @@ export const FIT = {
       134: { field: 'avg_step_length', type: 'uint16', scale: 10, offset: 0, units: 'mm' },
       137: { field: 'total_anaerobic_effect', type: 'uint8', scale: 10, offset: 0, units: '' },
       139: { field: 'avg_vam', type: 'uint16', scale: 1000, offset: 0, units: 'm/s' },
+      192: { field: 'workout_feel', type: 'uint8', scale: null, offset: 0, units: '' },
+      193: { field: 'workout_rpe', type: 'uint8', scale: 10, offset: 0, units: '' },
     },
     19: {
       name: 'lap',
