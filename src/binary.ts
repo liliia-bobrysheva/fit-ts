@@ -1,8 +1,10 @@
 import { FIT } from './fit';
-import { getFitMessage, getFitMessageBaseType } from './messages';
+import { getFitMessage, getFitMessageBaseType } from './functions';
 import { Buffer } from 'buffer';
+import { AllTypes, DataItem, FieldDefinition, LengthUnit, MessageTypeDefinition, MessageDataTypeTMP, Options, ParserOptions, Record, SpeedUnit, TemperatureUnit, Unit, UnitSet, DeveloperDataFieldDefinition } from './interfaces';
+import { FieldDescription, Types } from './messages';
 
-export function addEndian(littleEndian, bytes) {
+export function addEndian(littleEndian: boolean, bytes: number[]): number | number[] {
     let result = 0;
     if (!littleEndian) bytes.reverse();
     for (let i = 0; i < bytes.length; i++) {
@@ -20,7 +22,7 @@ const CompressedHeaderMask = 0x80;
 const GarminTimeOffset = 631065600000;
 let monitoring_timestamp = 0;
 
-function readData(blob, fDef, startIndex, options) {
+function readData(blob: ArrayLike<number>, fDef: FieldDefinition, startIndex: number, options: ParserOptions): number | string | ArrayLike<number> {
     if (fDef.endianAbility === true) {
         const temp = [];
         for (let i = 0; i < fDef.size; i++) {
@@ -75,7 +77,7 @@ function readData(blob, fDef, startIndex, options) {
                 temp.push(blob[startIndex + i]);
             }
         }
-        return new Buffer.from(temp).toString('utf-8');
+        return Buffer.from(temp).toString('utf-8');
     }
 
     if (fDef.type === 'byte_array') {
@@ -89,7 +91,7 @@ function readData(blob, fDef, startIndex, options) {
     return blob[startIndex];
 }
 
-function formatByType(data, type, scale, offset) {
+function formatByType(data: any, type: AllTypes, scale: number | null, offset: number): Date | number | Partial<DataItem> {
     switch (type) {
         case 'date_time':
         case 'local_date_time':
@@ -103,28 +105,29 @@ function formatByType(data, type, scale, offset) {
             return scale ? data / scale + offset : data;
         case 'uint32_array':
         case 'uint16_array':
-            return data.map(dataItem => scale ? dataItem / scale + offset : dataItem);
+            return data.map((dataItem: number) => scale ? dataItem / scale + offset : dataItem);
         default:
-            if (!FIT.types[type]) {
+            if (!(type in FIT.types)) {
                 return data;
             }
             // Quick check for a mask
+            const typeObj = FIT.types[type as keyof Types];
             var values = [];
-            for (var key in FIT.types[type]) {
-                if (FIT.types[type].hasOwnProperty(key)) {
-                    values.push(FIT.types[type][key])
+            for (var key in typeObj) {
+                if (typeObj.hasOwnProperty(key)) {
+                    values.push(typeObj[key])
                 }
             }
             if (values.indexOf('mask') === -1){
-                return FIT.types[type][data];
+                return typeObj[data];
             }
-            var dataItem = {};
-            for (var key in FIT.types[type]) {
-                if (FIT.types[type].hasOwnProperty(key)) {
-                    if (FIT.types[type][key] === 'mask'){
-                        dataItem.value = data & key
+            var dataItem: Partial<DataItem> = {};
+            for (let key in typeObj) {
+                if (typeObj.hasOwnProperty(key)) {
+                    if (typeObj[key] === 'mask'){
+                        dataItem.value = data & parseInt(key)
                     }else{
-                        dataItem[FIT.types[type][key]] = !!((data & key) >> 7) // Not sure if we need the >> 7 and casting to boolean but from all the masked props of fields so far this seems to be the case
+                        dataItem[typeObj[key] as any] = !!((data & parseInt(key)) >> 7) // Not sure if we need the >> 7 and casting to boolean but from all the masked props of fields so far this seems to be the case
                     }
                 }
             }
@@ -132,7 +135,7 @@ function formatByType(data, type, scale, offset) {
     }
 }
 
-function isInvalidValue(data, type) {
+function isInvalidValue(data: any, type: MessageDataTypeTMP | string): boolean {
     switch (type) {
         case 'enum':
             return data === 0xFF;
@@ -173,12 +176,13 @@ function isInvalidValue(data, type) {
     }
 }
 
-function convertTo(data, unitsList, speedUnit) {
-    const unitObj = FIT.options[unitsList][speedUnit];
+function convertTo(data: any, unitsList: keyof Options, speedUnit: SpeedUnit | LengthUnit | TemperatureUnit): number {
+    const unitSet = FIT.options[unitsList];
+    const unitObj: Unit = unitSet[speedUnit as SpeedUnit | LengthUnit | TemperatureUnit];
     return unitObj ? data * unitObj.multiplier + unitObj.offset : data;
 }
 
-function applyOptions(data, field, options) {
+function applyOptions(data: any, field: string, options: ParserOptions) {
     switch (field) {
         case 'speed':
         case 'enhanced_speed':
@@ -223,7 +227,7 @@ function applyOptions(data, field, options) {
     }
 }
 
-export function readRecord(blob, messageTypes, developerFields, startIndex, options, startDate, pausedTime) {
+export function readRecord(blob: Uint8Array, messageTypes: MessageTypeDefinition[], developerFields: FieldDescription[][], startIndex: number, options: ParserOptions, startDate: number, pausedTime: number): Record {
     const recordHeader = blob[startIndex];
     let localMessageType = recordHeader & 15;
 
@@ -244,7 +248,7 @@ export function readRecord(blob, messageTypes, developerFields, startIndex, opti
         const numberOfFields = blob[startIndex + 5];
         const numberOfDeveloperDataFields = hasDeveloperData ? blob[startIndex + 5 + numberOfFields * 3 + 1] : 0;
 
-        const mTypeDef = {
+        const mTypeDef: MessageTypeDefinition = {
             littleEndian: lEnd,
             globalMessageNumber: addEndian(lEnd, [blob[startIndex + 3], blob[startIndex + 4]]),
             numberOfFields: numberOfFields + numberOfDeveloperDataFields,
@@ -256,8 +260,8 @@ export function readRecord(blob, messageTypes, developerFields, startIndex, opti
         for (let i = 0; i < numberOfFields; i++) {
             const fDefIndex = startIndex + 6 + (i * 3);
             const baseType = blob[fDefIndex + 2];
-            const { field, type } = message.getAttributes(blob[fDefIndex]);
-            const fDef = {
+            const { field, type } = message.getAttributes(blob[fDefIndex]) || { field: null, type: null};
+            const fDef: FieldDefinition = {
                 type,
                 fDefNo: blob[fDefIndex],
                 size: blob[fDefIndex + 1],
@@ -285,7 +289,7 @@ export function readRecord(blob, messageTypes, developerFields, startIndex, opti
 
                 const baseType = devDef.fit_base_type_id;
 
-                const fDef = {
+                const fDef: DeveloperDataFieldDefinition = {
                     type: FIT.types.fit_base_type[baseType],
                     fDefNo: fieldNum,
                     size: size,
@@ -309,6 +313,7 @@ export function readRecord(blob, messageTypes, developerFields, startIndex, opti
             }
         }
 
+        // TODO - investigate what localMessageType is. Apparently it is just a number type, but I'm not 100% sure that we don't need more elaborate type for it (LB)
         messageTypes[localMessageType] = mTypeDef;
 
         const nextIndex = startIndex + 6 + (mTypeDef.numberOfFields * 3);
@@ -327,11 +332,12 @@ export function readRecord(blob, messageTypes, developerFields, startIndex, opti
     // uncompressed header
     let messageSize = 0;
     let readDataFromIndex = startIndex + 1;
-    const fields = {};
+    const fields: any = {}; // TODO any message field, e.g. for message type 'session' fields are time_in_power_zone, sport, sub_sport, intensity_factor, threshold_power etc.
+    // unfortunately with current implementation of fit.ts I can't create more elaborate types, but will investigate if this is necessary and reaasonable (LB)
     const message = getFitMessage(messageType.globalMessageNumber);
 
     for (let i = 0; i < messageType.fieldDefs.length; i++) {
-        const fDef = messageType.fieldDefs[i];
+        const fDef: FieldDefinition = messageType.fieldDefs[i];
         const data = readData(blob, fDef, readDataFromIndex, options);
 
         if (!isInvalidValue(data, fDef.type)) {
@@ -339,12 +345,12 @@ export function readRecord(blob, messageTypes, developerFields, startIndex, opti
 
                 const field = fDef.name;
                 const type =  fDef.type;
-                const scale = fDef.scale;
-                const offset = fDef.offset;
+                const scale = fDef.scale ?? null;
+                const offset = fDef.offset ?? 0;
 
                 fields[fDef.name] = applyOptions(formatByType(data, type, scale, offset), field, options);
             } else {
-                const { field, type, scale, offset } = message.getAttributes(fDef.fDefNo);
+                const { field, type, scale, offset } = message.getAttributes(fDef.fDefNo) || { field: null, type: null };
 
                 if (field !== 'unknown' && field !== '' && field !== undefined) {
                     fields[field] = applyOptions(formatByType(data, type, scale, offset), field, options);
@@ -379,16 +385,16 @@ export function readRecord(blob, messageTypes, developerFields, startIndex, opti
         }
     }
 
-    const result = {
+    const result: Record = {
         messageType: message.name,
         nextIndex: startIndex + messageSize + 1,
-        message: fields,
+        message: fields
     };
 
     return result;
 }
 
-export function getArrayBuffer(buffer) {
+export function getArrayBuffer(buffer: ArrayLike<number>): ArrayBuffer {
     if (buffer instanceof ArrayBuffer) {
         return buffer;
     }
@@ -400,7 +406,7 @@ export function getArrayBuffer(buffer) {
     return ab;
 }
 
-export function calculateCRC(blob, start, end) {
+export function calculateCRC(blob: ArrayLike<number>, start: number, end: number): number {
     const crcTable = [
         0x0000, 0xCC01, 0xD801, 0x1400, 0xF001, 0x3C00, 0x2800, 0xE401,
         0xA001, 0x6C00, 0x7800, 0xB401, 0x5000, 0x9C01, 0x8801, 0x4400,

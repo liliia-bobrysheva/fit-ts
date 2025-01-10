@@ -78,7 +78,7 @@
     "build": "node ./node_modules/gulp/bin/gulp.js babel"
   },
   "dependencies": {
-    "buffer": "^5.1.0"
+    "buffer": "^5.7.1"
   },
   "type": "module"
 }

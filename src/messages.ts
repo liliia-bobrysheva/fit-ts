@@ -369,7 +369,7 @@ export type DisplayPosition =
 
 export type SwitchState = "off" | "on" | "auto";
 
-export type SportTypes =
+export type SportType =
   | "generic"
   | "running"
   | "cycling"
@@ -3132,7 +3132,7 @@ export interface Types {
   display_power: { [key: number]: DisplayPower };
   display_position: { [key: number]: DisplayPosition };
   switch: { [key: number]: SwitchState };
-  sport: { [key: number]: Sport };
+  sport: { [key: number]: SportType };
   sport_bits_0: { [key: number]: SportBits0 };
   sport_bits_1: { [key: number]: SportBits1 };
   sport_bits_2: { [key: number]: SportBits2 };
@@ -3156,7 +3156,7 @@ export interface Types {
   timer_trigger: { [key: number]: TimerTrigger };
   fitness_equipment_state: { [key: number]: FitnessEquipmentState };
   tone: { [key: number]: Tone };
-  autoscroll: { [key: number]: AutoScrol };
+  autoscroll: { [key: number]: AutoScroll };
   activity_class: { [key: number]: ActivityClass };
   hr_zone_calc: { [key: number]: HRZoneCalc };
   pwr_zone_calc: { [key: number]: PwrZoneCalc };
@@ -3166,7 +3166,7 @@ export interface Types {
   goal_recurrence: { [key: number]: GoalRecurrence };
   goal_source: { [key: number]: GoalSource };
   schedule: { [key: number]: Schedule };
-  course_point: { [key: number]: CoursePoint };
+  course_point: { [key: number]: CoursePointType };
   manufacturer: { [key: number]: Manufacturer };
   garmin_product: { [key: number]: GarminProduct };
   antplus_device_type: { [key: number]: ANTPlusDeviceType };
@@ -3226,7 +3226,7 @@ export interface Types {
   fit_base_type: { [key: number]: FitBaseType };
   turn_type: { [key: number]: TurnType };
   bike_light_beam_angle_mode: { [key: number]: BikeLightBeamAngleMode };
-  fit_base_unit: { [key: number]: itBaseUnit };
+  fit_base_unit: { [key: number]: FitBaseUnit };
   set_type: { [key: number]: SetType };
   exercise_category: { [key: number]: ExerciseCategory };
   bench_press_exercise_name: { [key: number]: BenchPressExerciseName };
@@ -3275,3 +3275,463 @@ export interface Types {
 }
 
 export type TypeNames = keyof Types;
+
+export interface CoursePoint {
+  message_index?: MessageIndex;
+  timestamp?: Date;
+  position_lat?: number;
+  position_long?: number;
+  distance?: number;
+  type?: CoursePointType;
+  name?: string;
+  favorite?: boolean;
+}
+
+export interface DeveloperDataId {
+  developer_id?: number;
+  application_id?: number[]; // TODO confirm type for byte array
+  manufacturer_id?: Manufacturer;
+  developer_data_index: number;
+  application_version?: number;
+}
+
+export interface Device {
+  timestamp: Date;
+  device_index: number; // TODO - confirm type with documentation
+  device_type: ANTPlusDeviceType;
+  manufacturer: Manufacturer;
+  source_type?: SourceType;
+  serial_number?: number;
+  product?: number;
+  software_version?: number;
+  hardware_version?: number;
+  cum_operating_time?: number;
+  battery_voltage?: number;
+  battery_status?: BatteryStatus;
+  sensor_position?: BodyLocation;
+  descriptor?: string;
+  ant_transmission_type?: number;
+  ant_device_number?: number;
+  ant_network?: ANTNetwork;
+  product_name?: string;
+}
+
+export interface DiveGas {
+  message_index?: MessageIndex;
+  helium_content?: number;
+  oxygen_content?: number;
+  status?: DiveGasStatus;
+}
+
+export interface FieldDescription {
+  developer_data_index: number;
+  field_definition_number: number;
+  fit_base_type_id: number;
+  field_name: string;
+  units: string;
+  scale?: number | null;
+  offset?: number | null;
+  native_field_num?: number;
+}
+
+export interface FileId {
+  type?: File;
+  manufacturer?: Manufacturer;
+  product?: number;
+  serial_number?: number;
+  time_created?: Date;
+  number?: number;
+  product_name?: string;
+}
+
+export interface FitEvent {
+  timestamp: Date;
+  event: Event;
+  event_type: EventType;
+  data: number;
+  data16?: number;
+  event_group?: number;
+  score?: number;
+  opponent_score?: number;
+  front_gear_num?: number;
+  front_gear?: number;
+  rear_gear_num?: number;
+  rear_gear?: number;
+  device_index?: number; // TODO - confirm type with documentation
+}
+
+export interface HRV {
+  time: number[];
+}
+
+export interface Lap {
+  message_index?: MessageIndex;
+  event?: string;
+  event_type?: string;
+  timestamp?: Date;
+  start_time: Date;
+  total_elapsed_time?: number;
+  total_timer_time?: number;
+  avg_speed?: number;
+  max_speed?: number;
+  total_distance?: number;
+  avg_cadence?: number;
+  max_cadence?: number;
+  avg_power?: number;
+  max_power?: number;
+  time_in_power_zone?: number[];
+  total_work?: number;
+  min_altitude?: number;
+  avg_altitude?: number;
+  max_altitude?: number;
+  max_neg_grade?: number;
+  avg_grade?: number;
+  max_pos_grade?: number;
+  total_calories?: number;
+  normalized_power?: number;
+  avg_temperature?: number;
+  max_temperature?: number;
+  total_ascent?: number;
+  total_descent?: number;
+  sport?: string;
+  sub_sport?: string;
+  start_position_lat?: number;
+  start_position_long?: number;
+  total_cycles?: number;
+  total_fat_calories?: number;
+  avg_heart_rate?: number;
+  max_heart_rate?: number;
+  event_group?: number;
+  lap_trigger?: LapTrigger;
+  left_right_balance?: LeftRightBalance100;
+  avg_stroke_distance?: number;
+  swim_stroke?: SwimStroke;
+  num_active_lengths?: number;
+  gps_accuracy?: number;
+  avg_pos_grade?: number;
+  avg_neg_grade?: number;
+  total_moving_time?: number;
+  avg_pos_vertical_speed?: number;
+  avg_neg_vertical_speed?: number;
+  max_pos_vertical_speed?: number;
+  max_neg_vertical_speed?: number;
+  min_heart_rate?: number;
+  time_in_hr_zone?: number[];
+  time_in_speed_zone?: number[];
+  time_in_cadence_zone?: number[];
+  player_score?: number;
+  opponent_score?: number;
+  stroke_count?: number;
+  zone_count?: number;
+  avg_vertical_oscillation?: number;
+  avg_stance_time_percent?: number;
+  avg_stance_time?: number;
+  avg_fractional_cadence?: number;
+  max_fractional_cadence?: number;
+  total_fractional_cycles?: number;
+  avg_total_hemoglobin_conc?: number;
+  min_total_hemoglobin_conc?: number;
+  max_total_hemoglobin_conc?: number;
+  avg_saturated_hemoglobin_percent?: number;
+  min_saturated_hemoglobin_percent?: number;
+  max_saturated_hemoglobin_percent?: number;
+  avg_left_torque_effectiveness?: number;
+  avg_right_torque_effectiveness?: number;
+  avg_left_pedal_smoothness?: number;
+  avg_right_pedal_smoothness?: number;
+  avg_combined_pedal_smoothness?: number;
+  time_standing?: number;
+  stand_count?: number;
+  avg_left_pco?: number;
+  avg_right_pco?: number;
+  avg_left_power_phase?: number;
+  avg_left_power_phase_peak?: number;
+  avg_right_power_phase?: number;
+  avg_right_power_phase_peak?: number;
+  avg_power_position?: number;
+  max_power_position?: number;
+  avg_cadence_position?: number;
+  max_cadence_position?: number;
+  enhanced_avg_speed?: number;
+  enhanced_max_speed?: number;
+  enhanced_avg_altitude?: number;
+  enhanced_min_altitude?: number;
+  enhanced_max_altitude?: number;
+  avg_lev_motor_power?: number;
+  max_lev_motor_power?: number;
+  lev_battery_consumption?: number;
+  avg_vertical_ratio?: number;
+  avg_stance_time_balance?: number;
+  avg_step_length?: number;
+  avg_vam?: number;
+}
+
+export interface ExtendedLap extends Lap {
+  records: any;
+  lengths: any;
+}
+
+export interface Length {
+  message_index?: MessageIndex;
+  timestamp: Date;
+  event?: FitEvent;
+  event_type?: EventType;
+  start_time?: Date;
+  total_elapsed_time?: number;
+  total_timer_time?: number;
+  total_strokes?: number;
+  avg_speed?: number;
+  swim_stroke?: SwimStroke;
+  avg_swimming_cadence?: number;
+  event_group?: number;
+  total_calories?: number;
+  length_type?: LengthType;
+  player_score?: number;
+  opponent_score?: number;
+  stroke_count?: number;
+  zone_count?: number;
+}
+
+export interface MonitoringInfo {
+  timestamp?: Date;
+  local_timestamp: Date;
+  activity_type?: ActivityType;
+  cycles_to_distance?: number;
+  cycles_to_calories?: number;
+  resting_metabolic_rate?: number;
+}
+
+export interface Monitoring {
+  timestamp?: Date;
+  device_index?: number; // TODO - confirm type with documentation
+  calories?: number;
+  distance?: number;
+  cycles?: number;
+  active_time?: number;
+  activity_type?: ActivityType;
+  activity_subtype?: ActivitySubtype;
+  activity_level?: ActivityLevel;
+  distance16?: number;
+  cycles16?: number;
+  active_time16?: number;
+  local_timestamp?: Date;
+  temperature?: number;
+  temperature_min?: number;
+  temperature_max?: number;
+  activity_time?: number;
+  active_calories?: number;
+  current_activity_type_intensity?: number;
+  timestamp_min8?: number;
+  timestamp16?: number;
+  heart_rate?: number;
+  intensity?: number;
+  duration_min?: number;
+  duration?: number;
+  ascent?: number;
+  descent?: number;
+  moderate_activity_minutes?: number;
+  vigorous_activity_minutes?: number;
+}
+
+export interface FitRecord {
+  timestamp: Date;
+  speed?: number;
+  distance?: number;
+  cadence?: number;
+  power?: number;
+  altitude?: number;
+  grade?: number;
+  calories?: number;
+  temperature?: number;
+  position_lat?: number;
+  position_long?: number;
+  cycles?: number;
+  total_cycles?: number;
+  heart_rate?: number;
+  gps_accuracy?: number;
+  vertical_speed?: number;
+  ball_speed?: number;
+  vertical_oscillation?: number;
+  stance_time_percent?: number;
+  stance_time?: number;
+  fractional_cadence?: number;
+  total_hemoglobin_conc?: number;
+  saturated_hemoglobin_percent?: number;
+  left_torque_effectiveness?: number;
+  right_torque_effectiveness?: number;
+  left_pedal_smoothness?: number;
+  right_pedal_smoothness?: number;
+  combined_pedal_smoothness?: number;
+  left_pco?: number;
+  right_pco?: number;
+  left_power_phase?: number;
+  left_power_phase_peak?: number;
+  right_power_phase?: number;
+  right_power_phase_peak?: number;
+  motor_power?: number;
+  vertical_ratio?: number;
+  stance_time_balance?: number;
+  step_length?: number;
+  compressed_speed_distance?: number;
+  resistance?: number;
+  time_from_course?: number;
+  cycle_length?: number;
+  speed_1s?: number;
+  compressed_accumulated_power?: number;
+  accumulated_power?: number;
+  activity_type?: ActivityType;
+  time128?: number;
+  strokeType?: StrokeType;
+  zone?: number;
+  cadence256?: number;
+  device_index?: number; // TODO - confirm type with documentation
+  enhanced_speed?: number;
+  enhanced_altitude?: number;
+  battery_soc?: number;
+  absolute_pressure?: number;
+  depth?: number;
+  next_stop_depth?: number;
+  next_stop_time?: number;
+  time_to_surface?: number;
+  ndl_time?: number;
+  cns_load?: number;
+  n2_load?: number;
+}
+
+export interface Session {
+  message_index?: MessageIndex;
+  laps?: Lap[];
+  event?: string;
+  event_type?: string;
+  timestamp?: Date;
+  start_time: Date;
+  total_elapsed_time?: number;
+  total_timer_time?: number;
+  avg_speed?: number;
+  max_speed?: number;
+  total_distance?: number;
+  avg_cadence?: number;
+  max_cadence?: number;
+  avg_power?: number;
+  max_power?: number;
+  time_in_power_zone?: number[];
+  total_work?: number;
+  min_altitude?: number;
+  avg_altitude?: number;
+  max_altitude?: number;
+  max_neg_grade?: number;
+  avg_grade?: number;
+  max_pos_grade?: number;
+  total_calories?: number;
+  normalized_power?: number;
+  avg_temperature?: number;
+  max_temperature?: number;
+  total_ascent?: number;
+  total_descent?: number;
+  sport?: string;
+  sub_sport?: string;
+  num_laps?: number;
+  threshold_power?: number;
+  training_stress_score?: number;
+  intensity_factor?: number;
+  workout_type?: number;
+  start_position_lat?: number;
+  start_position_long?: number;
+  total_cycles?: number;
+  total_fat_calories?: number;
+  avg_heart_rate?: number;
+  max_heart_rate?: number;
+  total_training_effect?: number;
+  first_lap_index?: number;
+  event_group?: number;
+  trigger?: SessionTrigger;
+  nec_lat?: number;
+  nec_long?: number;
+  swc_lat?: number;
+  swc_long?: number;
+  left_right_balance_100?: LeftRightBalance100;
+  avg_stroke_count?: number;
+  avg_stroke_distance?: number;
+  swim_stroke?: SwimStroke;
+  pool_length?: number;
+  pool_length_unit?: DisplayMeasure;
+  num_active_lengths?: number;
+  gps_accuracy?: number;
+  avg_pos_grade?: number;
+  avg_neg_grade?: number;
+  total_moving_time?: number;
+  avg_pos_vertical_speed?: number;
+  avg_neg_vertical_speed?: number;
+  max_pos_vertical_speed?: number;
+  max_neg_vertical_speed?: number;
+  min_heart_rate?: number;
+  time_in_hr_zone?: number[];
+  time_in_speed_zone?: number[];
+  time_in_cadence_zone?: number[];
+  avg_lap_time?: number;
+  best_lap_index?: number;
+  player_score?: number;
+  opponent_score?: number;
+  opponent_name?: string;
+  stroke_count?: number;
+  zone_count?: number;
+  max_ball_speed?: number;
+  avg_ball_speed?: number;
+  avg_vertical_oscillation?: number;
+  avg_stance_time_percent?: number;
+  avg_stance_time?: number;
+  avg_fractional_cadence?: number;
+  max_fractional_cadence?: number;
+  total_fractional_cycles?: number;
+  avg_total_hemoglobin_conc?: number;
+  min_total_hemoglobin_conc?: number;
+  max_total_hemoglobin_conc?: number;
+  avg_saturated_hemoglobin_percent?: number;
+  min_saturated_hemoglobin_percent?: number;
+  max_saturated_hemoglobin_percent?: number;
+  avg_left_torque_effectiveness?: number;
+  avg_right_torque_effectiveness?: number;
+  avg_left_pedal_smoothness?: number;
+  avg_right_pedal_smoothness?: number;
+  avg_combined_pedal_smoothness?: number;
+  sport_index?: number;
+  time_standing?: number;
+  stand_count?: number;
+  avg_left_pco?: number;
+  avg_right_pco?: number;
+  avg_left_power_phase?: number;
+  avg_left_power_phase_peak?: number;
+  avg_right_power_phase?: number;
+  avg_right_power_phase_peak?: number;
+  avg_power_position?: number;
+  max_power_position?: number;
+  avg_cadence_position?: number;
+  max_cadence_position?: number;
+  enhanced_avg_speed?: number;
+  enhanced_max_speed?: number;
+  enhanced_avg_altitude?: number;
+  enhanced_min_altitude?: number;
+  enhanced_max_altitude?: number;
+  avg_lev_motor_power?: number;
+  max_lev_motor_power?: number;
+  lev_battery_consumption?: number;
+  avg_vertical_ratio?: number;
+  avg_stance_time_balance?: number;
+  avg_step_length?: number;
+  total_anaerobic_effect?: number;
+  avg_vam?: number;
+}
+
+export interface Sport {
+  sport?: SportType;
+  sub_sport?: SubSport;
+  name?: string;
+}
+
+export interface StressLevel {
+  stress_level_value?: number;
+  stress_level_time?: Date;
+  field_two?: number;
+  body_battery?: number;
+  field_four?: number;
+}

@@ -1,19 +1,26 @@
+import { Buffer } from 'buffer';
 import { getArrayBuffer, calculateCRC, readRecord } from './binary';
 import { mapDataIntoSession, mapDataIntoLap } from './helper';
+import { FITObjectCascade, FITObjectList, MessageTypeDefinition, ParserOptions } from './interfaces';
+import { FITObject } from './interfaces';
+import { CoursePoint, DeveloperDataId, Device, DiveGas, FieldDescription, FileId, FitEvent, FitRecord, HRV, Length, Monitoring, MonitoringInfo, Session, Sport, StressLevel, ExtendedLap } from "./messages";
+
 export default class FitParser {
-  constructor(options = {}) {
+  options: ParserOptions; // TODO private?
+
+  constructor(options: Partial<ParserOptions> = {}) {
     this.options = {
-      force: options.force != null ? options.force : true,
-      speedUnit: options.speedUnit || 'm/s',
-      lengthUnit: options.lengthUnit || 'm',
-      temperatureUnit: options.temperatureUnit || 'celsius',
-      elapsedRecordField: options.elapsedRecordField || false,
-      mode: options.mode || 'list',
+      force: options?.force != null ? options.force : true,
+      speedUnit: options?.speedUnit || 'm/s',
+      lengthUnit: options?.lengthUnit || 'm',
+      temperatureUnit: options?.temperatureUnit || 'celsius',
+      elapsedRecordField: options?.elapsedRecordField || false,
+      mode: options?.mode || 'list',
     };
   }
 
-  parse(content, callback) {
-    const blob = new Uint8Array(getArrayBuffer(content));
+  parse(content: Buffer, callback: (error: string | null, data: FITObject | {}) => void) {
+    const blob: Uint8Array = new Uint8Array(getArrayBuffer(content));
 
     if (blob.length < 12) {
       callback('File to small to be a FIT file', {});
@@ -68,31 +75,32 @@ export default class FitParser {
       }
     }
 
-    const fitObj = {};
-    fitObj.protocolVersion = protocolVersion;
-    fitObj.profileVersion = profileVersion;
+    const fitObj: FITObjectCascade | FITObjectList = {
+      protocolVersion,
+      profileVersion
+    };
 
-    let sessions = [];
-    let laps = [];
-    const records = [];
-    const events = [];
-    const hrv = [];
-    const devices = [];
-    const applications = [];
-    const fieldDescriptions = [];
-    const dive_gases = [];
-    const course_points = [];
-    const sports = [];
-    const monitors = [];
-    const stress = [];
-    const definitions = [];
-    const file_ids = [];
-    const monitor_info = [];
-    const lengths = [];
+    let sessions: Session[] = []; // TODO add type
+    let laps: ExtendedLap[] = [];
+    const records: FitRecord[] = []; // TODO add type
+    const events: FitEvent[] = []; // TODO add type
+    const hrv: HRV[] = []; // TODO add type
+    const devices: Device[] = []; // TODO add type
+    const applications: DeveloperDataId[] = []; // TODO add type
+    const fieldDescriptions: FieldDescription[] = []; // TODO add type
+    const dive_gases: DiveGas[] = []; // TODO add type
+    const course_points: CoursePoint[] = []; // TODO add type
+    const sports: Sport[] = []; // TODO add type
+    const monitors: Monitoring[] = []; // TODO add type
+    const stress: StressLevel[] = []; // TODO add type
+    const definitions: FieldDescription[] = []; // TODO add type
+    const file_ids: FileId[] = []; // TODO add type
+    const monitor_info: MonitoringInfo[] = []; // TODO add type
+    const lengths: Length[] = []; // TODO add type
 
     let loopIndex = headerLength;
-    const messageTypes = [];
-    const developerFields = [];
+    const messageTypes: MessageTypeDefinition[] = [];
+    const developerFields: FieldDescription[][] = [];
 
     const isModeCascade = this.options.mode === 'cascade';
     const isCascadeNeeded = isModeCascade || this.options.mode === 'both';
@@ -179,7 +187,7 @@ export default class FitParser {
           fitObj.software = message;
           break;
         default:
-          if (messageType !== '') {
+          if (messageType) {
             fitObj[messageType] = message;
           }
           break;
