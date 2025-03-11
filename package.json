@@ -74,7 +74,7 @@
     "example-output-summary-first": "node ./node_modules/gulp/bin/gulp.js; node examples/example.js examples/triathlon_summary_first.fit > examples/output_summary_first.json",
     "example-output-summary-last": "node ./node_modules/gulp/bin/gulp.js; node examples/example.js examples/triathlon_summary_last.fit > examples/output_summary_last.json",
     "example": "node ./node_modules/gulp/bin/gulp.js; node examples/example.js examples/triathlon_summary_first.fit",
-    "test": "node_modules/gulp/bin/gulp.js;",
+    "test": "mocha",
     "build": "node ./node_modules/gulp/bin/gulp.js babel"
   },
   "dependencies": {
