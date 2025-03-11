@@ -1,10 +1,12 @@
+import { FITInterface, Message, MessageAttributes, MessageName } from "./interfaces";
+
 // some unit conversion constants
 const metersInOneKilometer = 1000;
 const secondsInOneHour = 3600;
 // according to https://en.wikipedia.org/wiki/Mile
 const metersInOneMile = 1609.344;
 
-export const FIT = {
+export const FIT: FITInterface = {
   scConst: 180 / Math.pow(2, 31),
   options: {
     speedUnits: {
@@ -43,7 +45,7 @@ export const FIT = {
     },
     temperatureUnits: {
       // native temperature unit: degree Celsius [°C]
-      '°C': {
+      celsius: {
         multiplier: 1,
         offset: 0,
       },
@@ -62,31 +64,31 @@ export const FIT = {
   messages: {
     0: {
       name: 'file_id',
-      0: { field: 'type', type: 'file', scale: null, offset: '', units: '' },
-      1: { field: 'manufacturer', type: 'manufacturer', scale: null, offset: '', units: '' },
-      2: { field: 'product', type: 'uint16', scale: null, offset: '', units: '' },
-      3: { field: 'serial_number', type: 'uint32z', scale: null, offset: '', units: '' },
-      4: { field: 'time_created', type: 'date_time', scale: null, offset: '', units: '' },
-      5: { field: 'number', type: 'uint16', scale: null, offset: '', units: '' },
-      8: { field: 'product_name', type: 'string', scale: null, offset: '', units: '' },
+      0: { field: 'type', type: 'file', scale: null, offset: 0, units: '' },
+      1: { field: 'manufacturer', type: 'manufacturer', scale: null, offset: 0, units: '' },
+      2: { field: 'product', type: 'uint16', scale: null, offset: 0, units: '' },
+      3: { field: 'serial_number', type: 'uint32z', scale: null, offset: 0, units: '' },
+      4: { field: 'time_created', type: 'date_time', scale: null, offset: 0, units: '' },
+      5: { field: 'number', type: 'uint16', scale: null, offset: 0, units: '' },
+      8: { field: 'product_name', type: 'string', scale: null, offset: 0, units: '' },
     },
     1: {
       name: 'capabilities',
-      0: { field: 'languages', type: 'uint8z', scale: null, offset: '', units: '' },
-      1: { field: 'sports', type: 'sport_bits_0', scale: null, offset: '', units: '' },
-      21: { field: 'workouts_supported', type: 'workout_capabilities', scale: null, offset: '', units: '' },
-      23: { field: 'connectivity_supported', type: 'connectivity_capabilities', scale: null, offset: '', units: '' },
+      0: { field: 'languages', type: 'uint8z', scale: null, offset: 0, units: '' },
+      1: { field: 'sports', type: 'sport_bits_0', scale: null, offset: 0, units: '' },
+      21: { field: 'workouts_supported', type: 'workout_capabilities', scale: null, offset: 0, units: '' },
+      23: { field: 'connectivity_supported', type: 'connectivity_capabilities', scale: null, offset: 0, units: '' },
     },
     2: {
       name: 'device_settings',
-      0: { field: 'active_time_zone', type: 'uint8', scale: null, offset: '', units: '' },
-      1: { field: 'utc_offset', type: 'uint32', scale: null, offset: '', units: '' },
-      2: { field: 'time_offset', type: 'uint32', scale: null, offset: '', units: 's' },
-      5: { field: 'time_zone_offset', type: 'sint8', scale: 4, offset: '', units: 'hr' },
-      55: { field: 'display_orientation', type: 'display_orientation', scale: null, offset: '', units: '' },
-      56: { field: 'mounting_side', type: 'side', scale: null, offset: '', units: '' },
-      94: { field: 'number_of_screens', type: 'uint8', scale: null, offset: '', units: '' },
-      95: { field: 'smart_notification_display_orientation', type: 'display_orientation', scale: null, offset: '', units: '' },
+      0: { field: 'active_time_zone', type: 'uint8', scale: null, offset: 0, units: '' },
+      1: { field: 'utc_offset', type: 'uint32', scale: null, offset: 0, units: '' },
+      2: { field: 'time_offset', type: 'uint32', scale: null, offset: 0, units: 's' },
+      5: { field: 'time_zone_offset', type: 'sint8', scale: 4, offset: 0, units: 'hr' },
+      55: { field: 'display_orientation', type: 'display_orientation', scale: null, offset: 0, units: '' },
+      56: { field: 'mounting_side', type: 'side', scale: null, offset: 0, units: '' },
+      94: { field: 'number_of_screens', type: 'uint8', scale: null, offset: 0, units: '' },
+      95: { field: 'smart_notification_display_orientation', type: 'display_orientation', scale: null, offset: 0, units: '' },
     },
     3: {
       name: 'user_profile',
@@ -116,22 +118,22 @@ export const FIT = {
     },
     4: {
       name: 'hrm_profile',
-      254: { field: 'message_index', type: 'message_index', scale: null, offset: '', units: '' },
-      0: { field: 'enabled', type: 'bool', scale: null, offset: '', units: '' },
-      1: { field: 'hrm_ant_id', type: 'uint16z', scale: null, offset: '', units: '' },
-      2: { field: 'log_hrv', type: 'bool', scale: null, offset: '', units: '' },
-      3: { field: 'hrm_ant_id_trans_type', type: 'uint8z', scale: null, offset: '', units: '' },
+      254: { field: 'message_index', type: 'message_index', scale: null, offset: 0, units: '' },
+      0: { field: 'enabled', type: 'bool', scale: null, offset: 0, units: '' },
+      1: { field: 'hrm_ant_id', type: 'uint16z', scale: null, offset: 0, units: '' },
+      2: { field: 'log_hrv', type: 'bool', scale: null, offset: 0, units: '' },
+      3: { field: 'hrm_ant_id_trans_type', type: 'uint8z', scale: null, offset: 0, units: '' },
     },
     5: {
       name: 'sdm_profile',
-      254: { field: 'message_index', type: 'message_index', scale: null, offset: '', units: '' },
-      0: { field: 'enabled', type: 'bool', scale: null, offset: '', units: '' },
-      1: { field: 'sdm_ant_id', type: 'uint16z', scale: null, offset: '', units: '' },
-      2: { field: 'sdm_cal_factor', type: 'uint16', scale: 10, offset: '', units: '%' },
-      3: { field: 'odometer', type: 'uint32', scale: 100, offset: '', units: 'm' },
-      4: { field: 'speed_source', type: 'bool', scale: null, offset: '', units: '' },
-      5: { field: 'sdm_ant_id_trans_type', type: 'uint8z', scale: null, offset: '', units: '' },
-      7: { field: 'odometer_rollover', type: 'uint8', scale: null, offset: '', units: '' },
+      254: { field: 'message_index', type: 'message_index', scale: null, offset: 0, units: '' },
+      0: { field: 'enabled', type: 'bool', scale: null, offset: 0, units: '' },
+      1: { field: 'sdm_ant_id', type: 'uint16z', scale: null, offset: 0, units: '' },
+      2: { field: 'sdm_cal_factor', type: 'uint16', scale: 10, offset: 0, units: '%' },
+      3: { field: 'odometer', type: 'uint32', scale: 100, offset: 0, units: 'm' },
+      4: { field: 'speed_source', type: 'bool', scale: null, offset: 0, units: '' },
+      5: { field: 'sdm_ant_id_trans_type', type: 'uint8z', scale: null, offset: 0, units: '' },
+      7: { field: 'odometer_rollover', type: 'uint8', scale: null, offset: 0, units: '' },
     },
     6: {
       name: 'bike_profile',
@@ -170,11 +172,11 @@ export const FIT = {
     },
     7: {
       name: 'zones_target',
-      1: { field: 'max_heart_rate', type: 'uint8', scale: null, offset: '', units: '' },
-      2: { field: 'threshold_heart_rate', type: 'uint8', scale: null, offset: '', units: '' },
-      3: { field: 'functional_threshold_power', type: 'uint16', scale: null, offset: '', units: '' },
-      5: { field: 'hr_calc_type', type: 'hr_zone_calc', scale: null, offset: '', units: '' },
-      7: { field: 'pwr_calc_type', type: 'pwr_zone_calc', scale: null, offset: '', units: '' },
+      1: { field: 'max_heart_rate', type: 'uint8', scale: null, offset: 0, units: '' },
+      2: { field: 'threshold_heart_rate', type: 'uint8', scale: null, offset: 0, units: '' },
+      3: { field: 'functional_threshold_power', type: 'uint16', scale: null, offset: 0, units: '' },
+      5: { field: 'hr_calc_type', type: 'hr_zone_calc', scale: null, offset: 0, units: '' },
+      7: { field: 'pwr_calc_type', type: 'pwr_zone_calc', scale: null, offset: 0, units: '' },
     },
     8: {
       name: 'hr_zone',
@@ -197,24 +199,24 @@ export const FIT = {
     },
     12: {
       name: 'sport',
-      0: { field: 'sport', type: 'sport', scale: null, offset: '', units: '' },
-      1: { field: 'sub_sport', type: 'sub_sport', scale: null, offset: '', units: '' },
-      3: { field: 'name', type: 'string', scale: null, offset: '', units: '' },
+      0: { field: 'sport', type: 'sport', scale: null, offset: 0, units: '' },
+      1: { field: 'sub_sport', type: 'sub_sport', scale: null, offset: 0, units: '' },
+      3: { field: 'name', type: 'string', scale: null, offset: 0, units: '' },
     },
     15: {
       name: 'goal',
-      254: { field: 'message_index', type: 'message_index', scale: null, offset: '', units: '' },
-      0: { field: 'sport', type: 'sport', scale: null, offset: '', units: '' },
-      1: { field: 'sub_sport', type: 'sub_sport', scale: null, offset: '', units: '' },
-      2: { field: 'start_date', type: 'date_time', scale: null, offset: '', units: '' },
-      3: { field: 'end_date', type: 'date_time', scale: null, offset: '', units: '' },
-      4: { field: 'type', type: 'goal', scale: null, offset: '', units: '' },
-      5: { field: 'value', type: 'uint32', scale: null, offset: '', units: '' },
-      6: { field: 'repeat', type: 'bool', scale: null, offset: '', units: '' },
-      7: { field: 'target_value', type: 'uint32', scale: null, offset: '', units: '' },
-      8: { field: 'recurrence', type: 'goal_recurrence', scale: null, offset: '', units: '' },
-      9: { field: 'recurrence_value', type: 'uint16', scale: null, offset: '', units: '' },
-      10: { field: 'enabled', type: 'bool', scale: null, offset: '', units: '' },
+      254: { field: 'message_index', type: 'message_index', scale: null, offset: 0, units: '' },
+      0: { field: 'sport', type: 'sport', scale: null, offset: 0, units: '' },
+      1: { field: 'sub_sport', type: 'sub_sport', scale: null, offset: 0, units: '' },
+      2: { field: 'start_date', type: 'date_time', scale: null, offset: 0, units: '' },
+      3: { field: 'end_date', type: 'date_time', scale: null, offset: 0, units: '' },
+      4: { field: 'type', type: 'goal', scale: null, offset: 0, units: '' },
+      5: { field: 'value', type: 'uint32', scale: null, offset: 0, units: '' },
+      6: { field: 'repeat', type: 'bool', scale: null, offset: 0, units: '' },
+      7: { field: 'target_value', type: 'uint32', scale: null, offset: 0, units: '' },
+      8: { field: 'recurrence', type: 'goal_recurrence', scale: null, offset: 0, units: '' },
+      9: { field: 'recurrence_value', type: 'uint16', scale: null, offset: 0, units: '' },
+      10: { field: 'enabled', type: 'bool', scale: null, offset: 0, units: '' },
     },
     18: {
       name: 'session',
@@ -316,10 +318,10 @@ export const FIT = {
       113: { field: 'stand_count', type: 'uint16', scale: null, offset: 0, units: '' },
       114: { field: 'avg_left_pco', type: 'sint8', scale: null, offset: 0, units: 'mm' },
       115: { field: 'avg_right_pco', type: 'sint8', scale: null, offset: 0, units: 'mm' },
-      116: { field: 'avg_left_power_phase', type: 'uint8', scale: '0,7111111', offset: 0, units: 'degrees' },
-      117: { field: 'avg_left_power_phase_peak', type: 'uint8', scale: '0,7111111', offset: 0, units: 'degrees' },
-      118: { field: 'avg_right_power_phase', type: 'uint8', scale: '0,7111111', offset: 0, units: 'degrees' },
-      119: { field: 'avg_right_power_phase_peak', type: 'uint8', scale: '0,7111111', offset: 0, units: 'degrees' },
+      116: { field: 'avg_left_power_phase', type: 'uint8', scale: 0.7111111, offset: 0, units: 'degrees' },
+      117: { field: 'avg_left_power_phase_peak', type: 'uint8', scale: 0.7111111, offset: 0, units: 'degrees' },
+      118: { field: 'avg_right_power_phase', type: 'uint8', scale: 0.7111111, offset: 0, units: 'degrees' },
+      119: { field: 'avg_right_power_phase_peak', type: 'uint8', scale: 0.7111111, offset: 0, units: 'degrees' },
       120: { field: 'avg_power_position', type: 'uint16', scale: null, offset: 0, units: 'watts' },
       121: { field: 'max_power_position', type: 'uint16', scale: null, offset: 0, units: 'watts' },
       122: { field: 'avg_cadence_position', type: 'uint8', scale: null, offset: 0, units: 'rpm' },
@@ -426,10 +428,10 @@ export const FIT = {
       99: { field: 'stand_count', type: 'uint16', scale: null, offset: 0, units: '' },
       100: { field: 'avg_left_pco', type: 'sint8', scale: null, offset: 0, units: 'mm' },
       101: { field: 'avg_right_pco', type: 'sint8', scale: null, offset: 0, units: 'mm' },
-      102: { field: 'avg_left_power_phase', type: 'uint8', scale: '0,7111111', offset: 0, units: 'degrees' },
-      103: { field: 'avg_left_power_phase_peak', type: 'uint8', scale: '0,7111111', offset: 0, units: 'degrees' },
-      104: { field: 'avg_right_power_phase', type: 'uint8', scale: '0,7111111', offset: 0, units: 'degrees' },
-      105: { field: 'avg_right_power_phase_peak', type: 'uint8', scale: '0,7111111', offset: 0, units: 'degrees' },
+      102: { field: 'avg_left_power_phase', type: 'uint8', scale: 0.7111111, offset: 0, units: 'degrees' },
+      103: { field: 'avg_left_power_phase_peak', type: 'uint8', scale: 0.7111111, offset: 0, units: 'degrees' },
+      104: { field: 'avg_right_power_phase', type: 'uint8', scale: 0.7111111, offset: 0, units: 'degrees' },
+      105: { field: 'avg_right_power_phase_peak', type: 'uint8', scale: 0.7111111, offset: 0, units: 'degrees' },
       106: { field: 'avg_power_position', type: 'uint16', scale: null, offset: 0, units: 'watts' },
       107: { field: 'max_power_position', type: 'uint16', scale: null, offset: 0, units: 'watts' },
       108: { field: 'avg_cadence_position', type: 'uint8', scale: null, offset: 0, units: 'rpm' },
@@ -458,7 +460,7 @@ export const FIT = {
       5: { field: 'distance', type: 'uint32', scale: 100, offset: 0, units: 'm' },
       6: { field: 'speed', type: 'uint16', scale: 1000, offset: 0, units: 'm/s' },
       7: { field: 'power', type: 'uint16', scale: null, offset: 0, units: 'watts' },
-      8: { field: 'compressed_speed_distance', type: 'byte', scale: '100,16', offset: 0, units: 'm/s,m' },
+      8: { field: 'compressed_speed_distance', type: 'byte', scale: 100.16, offset: 0, units: 'm/s,m' },
       9: { field: 'grade', type: 'sint16', scale: 100, offset: 0, units: '%' },
       10: { field: 'resistance', type: 'uint8', scale: null, offset: 0, units: '' },
       11: { field: 'time_from_course', type: 'sint32', scale: 1000, offset: 0, units: 's' },
@@ -497,10 +499,10 @@ export const FIT = {
       62: { field: 'device_index', type: 'device_index', scale: null, offset: 0, units: '' },
       67: { field: 'left_pco', type: 'sint8', scale: null, offset: 0, units: 'mm' },
       68: { field: 'right_pco', type: 'sint8', scale: null, offset: 0, units: 'mm' },
-      69: { field: 'left_power_phase', type: 'uint8', scale: '0,7111111', offset: 0, units: 'degrees' },
-      70: { field: 'left_power_phase_peak', type: 'uint8', scale: '0,7111111', offset: 0, units: 'degrees' },
-      71: { field: 'right_power_phase', type: 'uint8', scale: '0,7111111', offset: 0, units: 'degrees' },
-      72: { field: 'right_power_phase_peak', type: 'uint8', scale: '0,7111111', offset: 0, units: 'degrees' },
+      69: { field: 'left_power_phase', type: 'uint8', scale: 0.7111111, offset: 0, units: 'degrees' },
+      70: { field: 'left_power_phase_peak', type: 'uint8', scale: 0.7111111, offset: 0, units: 'degrees' },
+      71: { field: 'right_power_phase', type: 'uint8', scale: 0.7111111, offset: 0, units: 'degrees' },
+      72: { field: 'right_power_phase_peak', type: 'uint8', scale: 0.7111111, offset: 0, units: 'degrees' },
       73: { field: 'enhanced_speed', type: 'uint32', scale: 1000, offset: 0, units: 'm/s' },
       78: { field: 'enhanced_altitude', type: 'uint32', scale: 5, offset: -500, units: 'm' },
       81: { field: 'battery_soc', type: 'uint8', scale: 2, offset: 0, units: 'percent' },
@@ -519,19 +521,19 @@ export const FIT = {
     },
     21: {
       name: 'event',
-      253: { field: 'timestamp', type: 'date_time', scale: null, offset: '', units: 's' },
-      0: { field: 'event', type: 'event', scale: null, offset: '', units: '' },
-      1: { field: 'event_type', type: 'event_type', scale: null, offset: '', units: '' },
-      2: { field: 'data16', type: 'uint16', scale: null, offset: '', units: '' },
-      3: { field: 'data', type: 'uint32', scale: null, offset: '', units: '' },
-      4: { field: 'event_group', type: 'uint8', scale: null, offset: '', units: '' },
-      7: { field: 'score', type: 'uint16', scale: null, offset: '', units: '' },
-      8: { field: 'opponent_score', type: 'uint16', scale: null, offset: '', units: '' },
-      9: { field: 'front_gear_num', type: 'uint8z', scale: null, offset: '', units: '' },
-      10: { field: 'front_gear', type: 'uint8z', scale: null, offset: '', units: '' },
-      11: { field: 'rear_gear_num', type: 'uint8z', scale: null, offset: '', units: '' },
-      12: { field: 'rear_gear', type: 'uint8z', scale: null, offset: '', units: '' },
-      13: { field: 'device_index', type: 'device_index', scale: null, offset: '', units: '' },
+      253: { field: 'timestamp', type: 'date_time', scale: null, offset: 0, units: 's' },
+      0: { field: 'event', type: 'event', scale: null, offset: 0, units: '' },
+      1: { field: 'event_type', type: 'event_type', scale: null, offset: 0, units: '' },
+      2: { field: 'data16', type: 'uint16', scale: null, offset: 0, units: '' },
+      3: { field: 'data', type: 'uint32', scale: null, offset: 0, units: '' },
+      4: { field: 'event_group', type: 'uint8', scale: null, offset: 0, units: '' },
+      7: { field: 'score', type: 'uint16', scale: null, offset: 0, units: '' },
+      8: { field: 'opponent_score', type: 'uint16', scale: null, offset: 0, units: '' },
+      9: { field: 'front_gear_num', type: 'uint8z', scale: null, offset: 0, units: '' },
+      10: { field: 'front_gear', type: 'uint8z', scale: null, offset: 0, units: '' },
+      11: { field: 'rear_gear_num', type: 'uint8z', scale: null, offset: 0, units: '' },
+      12: { field: 'rear_gear', type: 'uint8z', scale: null, offset: 0, units: '' },
+      13: { field: 'device_index', type: 'device_index', scale: null, offset: 0, units: '' },
     },
     23: {
       name: 'device_info',
@@ -556,10 +558,10 @@ export const FIT = {
     },
     26: {
       name: 'workout',
-      4: { field: 'sport', type: 'sport', scale: null, offset: '', units: '' },
-      5: { field: 'capabilities', type: 'workout_capabilities', scale: null, offset: '', units: '' },
-      6: { field: 'num_valid_steps', type: 'uint16', scale: null, offset: '', units: '' },
-      8: { field: 'wkt_name', type: 'string', scale: null, offset: '', units: '' },
+      4: { field: 'sport', type: 'sport', scale: null, offset: 0, units: '' },
+      5: { field: 'capabilities', type: 'workout_capabilities', scale: null, offset: 0, units: '' },
+      6: { field: 'num_valid_steps', type: 'uint16', scale: null, offset: 0, units: '' },
+      8: { field: 'wkt_name', type: 'string', scale: null, offset: 0, units: '' },
     },
     27: {
       name: 'workout_step',
@@ -591,9 +593,9 @@ export const FIT = {
     },
     31: {
       name: 'course',
-      4: { field: 'sport', type: 'sport', scale: null, offset: '', units: '' },
-      5: { field: 'name', type: 'string', scale: null, offset: '', units: '' },
-      6: { field: 'capabilities', type: 'course_capabilities', scale: null, offset: '', units: '' },
+      4: { field: 'sport', type: 'sport', scale: null, offset: 0, units: '' },
+      5: { field: 'name', type: 'string', scale: null, offset: 0, units: '' },
+      6: { field: 'capabilities', type: 'course_capabilities', scale: null, offset: 0, units: '' },
     },
     32: {
       name: 'course_point',
@@ -632,9 +634,9 @@ export const FIT = {
     },
     35: {
       name: 'software',
-      254: { field: 'message_index', type: 'message_index', scale: null, offset: '', units: '' },
-      3: { field: 'version', type: 'uint16', scale: 100, offset: '', units: '' },
-      5: { field: 'part_number', type: 'string', scale: null, offset: '', units: '' },
+      254: { field: 'message_index', type: 'message_index', scale: null, offset: 0, units: '' },
+      3: { field: 'version', type: 'uint16', scale: 100, offset: 0, units: '' },
+      5: { field: 'part_number', type: 'string', scale: null, offset: 0, units: '' },
     },
     37: {
       name: 'file_capabilities',
@@ -647,24 +649,24 @@ export const FIT = {
     },
     38: {
       name: 'mesg_capabilities',
-      254: { field: 'message_index', type: 'message_index', scale: null, offset: '', units: '' },
-      0: { field: 'file', type: 'file', scale: null, offset: '', units: '' },
-      1: { field: 'mesg_num', type: 'mesg_num', scale: null, offset: '', units: '' },
-      2: { field: 'count_type', type: 'mesg_count', scale: null, offset: '', units: '' },
-      3: { field: 'count', type: 'uint16', scale: null, offset: '', units: '' },
+      254: { field: 'message_index', type: 'message_index', scale: null, offset: 0, units: '' },
+      0: { field: 'file', type: 'file', scale: null, offset: 0, units: '' },
+      1: { field: 'mesg_num', type: 'mesg_num', scale: null, offset: 0, units: '' },
+      2: { field: 'count_type', type: 'mesg_count', scale: null, offset: 0, units: '' },
+      3: { field: 'count', type: 'uint16', scale: null, offset: 0, units: '' },
     },
     39: {
       name: 'field_capabilities',
-      254: { field: 'message_index', type: 'message_index', scale: null, offset: '', units: '' },
-      0: { field: 'file', type: 'file', scale: null, offset: '', units: '' },
-      1: { field: 'mesg_num', type: 'mesg_num', scale: null, offset: '', units: '' },
-      2: { field: 'field_num', type: 'uint8', scale: null, offset: '', units: '' },
-      3: { field: 'count', type: 'uint16', scale: null, offset: '', units: '' },
+      254: { field: 'message_index', type: 'message_index', scale: null, offset: 0, units: '' },
+      0: { field: 'file', type: 'file', scale: null, offset: 0, units: '' },
+      1: { field: 'mesg_num', type: 'mesg_num', scale: null, offset: 0, units: '' },
+      2: { field: 'field_num', type: 'uint8', scale: null, offset: 0, units: '' },
+      3: { field: 'count', type: 'uint16', scale: null, offset: 0, units: '' },
     },
     49: {
       name: 'file_creator',
-      0: { field: 'software_version', type: 'uint16', scale: null, offset: '', units: '' },
-      1: { field: 'hardware_version', type: 'uint8', scale: null, offset: '', units: '' },
+      0: { field: 'software_version', type: 'uint16', scale: null, offset: 0, units: '' },
+      1: { field: 'hardware_version', type: 'uint8', scale: null, offset: 0, units: '' },
     },
     51: {
       name: 'blood_pressure',
@@ -698,7 +700,7 @@ export const FIT = {
       12: { field: 'temperature', type: 'float32', scale: null, offset: 0, units: 'C' },
       14: { field: 'temperature_min', type: 'float32', scale: null, offset: 0, units: 'C' },
       15: { field: 'temperature_max', type: 'float32', scale: null, offset: 0, units: 'C' },
-      16: { field: 'activity_time', type: 'int32', scale: null, offset: 0, units: '' },
+      16: { field: 'activity_time', type: 'uint16', scale: null, offset: 0, units: '' },
       19: { field: 'active_calories', type: 'uint16', scale: null, offset: 0, units: 'kcal' },
       24: { field: 'current_activity_type_intensity', type: 'uint8', scale: null, offset: 0, units: '' },
       25: { field: 'timestamp_min8', type: 'uint8', scale: null, offset: 0, units: '' },
@@ -710,7 +712,7 @@ export const FIT = {
       31: { field: 'ascent', type: 'float32', scale: null, offset: 0, units: 'm' },
       32: { field: 'descent', type: 'float32', scale: null, offset: 0, units: 'm' },
       33: { field: 'moderate_activity_minutes', type: 'uint16', scale: null, offset: 0, units: '' },
-      34: { field: 'vigorous_activity_inutes', type: 'uint16', scale: null, offset: 0, units: '' },
+      34: { field: 'vigorous_activity_minutes', type: 'uint16', scale: null, offset: 0, units: '' },
     },
     78: {
       name: 'hrv',
@@ -786,7 +788,7 @@ export const FIT = {
     },
     258: {
       name: 'dive_settings',
-      254: { field: 'message_index', type: 'message_index', scale: null, offset: '', units: '' },
+      254: { field: 'message_index', type: 'message_index', scale: null, offset: 0, units: '' },
       0: { field: 'name', type: 'string', scale: null, offset: 0, units: '' },
       1: { field: 'model', type: 'tissue_model_type', scale: null, offset: 0, units: '' },
       2: { field: 'gf_low', type: 'uint8', scale: null, offset: 0, units: 'percent' },
@@ -811,20 +813,20 @@ export const FIT = {
     },
     259 : {
       name: 'dive_gas',
-      254: { field: 'message_index', type: 'message_index', scale: null, offset: '', units: '' },
-      0: { field: 'helium_content', type: 'uint8', scale: null, offset: '', units: 'percent' },
-      1: { field: 'oxygen_content', type: 'uint8', scale: null, offset: '', units: 'percent' },
-      2: { field: 'status', type: 'dive_gas_status', scale: null, offset: '', units: '' }
+      254: { field: 'message_index', type: 'message_index', scale: null, offset: 0, units: '' },
+      0: { field: 'helium_content', type: 'uint8', scale: null, offset: 0, units: 'percent' },
+      1: { field: 'oxygen_content', type: 'uint8', scale: null, offset: 0, units: 'percent' },
+      2: { field: 'status', type: 'dive_gas_status', scale: null, offset: 0, units: '' }
     },
     262: {
       name: 'dive_alarm',
-      254: { field: 'message_index', type: 'message_index', scale: null, offset: '', units: '' },
-      0: { field: 'depth', type: 'uint32', scale: null, offset: '', units: 'm' },
-      1: { field: 'time', type: 'sint32', scale: null, offset: '', units: 's' },
-      2: { field: 'enabled', type: 'bool', scale: null, offset: '', units: '' },
-      3: { field: 'alarm_type', type: 'dive_alarm_type', scale: null, offset: '', units: '' },
-      4: { field: 'sound', type: 'tone', scale: null, offset: '', units: '' },
-      5: { field: 'dive_types', type: 'sub_sport', scale: null, offset: '', units: '' }
+      254: { field: 'message_index', type: 'message_index', scale: null, offset: 0, units: '' },
+      0: { field: 'depth', type: 'uint32', scale: null, offset: 0, units: 'm' },
+      1: { field: 'time', type: 'sint32', scale: null, offset: 0, units: 's' },
+      2: { field: 'enabled', type: 'bool', scale: null, offset: 0, units: '' },
+      3: { field: 'alarm_type', type: 'dive_alarm_type', scale: null, offset: 0, units: '' },
+      4: { field: 'sound', type: 'tone', scale: null, offset: 0, units: '' },
+      5: { field: 'dive_types', type: 'sub_sport', scale: null, offset: 0, units: '' }
     },
     268: {
       name: 'dive_summary',
@@ -4243,18 +4245,14 @@ export const FIT = {
   },
 };
 
-export function getMessageName(messageNum) {
-  const message = FIT.messages[messageNum];
-  return message ? message.name : '';
+export function getMessageName(messageNum: number): MessageName  {
+  const message: Message = FIT.messages[messageNum];
+  return message?.name; // TODO rewrite to get rid of "?"
 }
 
-export function getFieldObject(fieldNum, messageNum) {
-  const message = FIT.messages[messageNum];
-  if (!message) {
-    return '';
-  }
-  const fieldObj = message[fieldNum];
-  return fieldObj ? fieldObj : {};
+export function getFieldObject(fieldNum: number, messageNum: number): MessageAttributes {
+  const message: Message = FIT.messages[messageNum];
+  return message?.[fieldNum]; // TODO handle null mesage
 }
 
 

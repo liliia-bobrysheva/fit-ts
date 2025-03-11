@@ -1,29 +1,15 @@
-import { CoursePoint } from "./course-point";
-import { DeveloperDataId } from "./developer-data-id";
-import { Device } from "./device";
-import { DiveGas } from "./dive-gases";
-import { FitEvent } from "./fit-event";
-import { FieldDescription } from "./field-description";
-import { FileId } from "./file_id";
-import { Monitoring } from "./monitoring";
-import { MonitoringInfo } from "./monitoring-info";
-import { Sport } from "./sport";
-import { StressLevel } from "./stress-level";
-import { Session } from "./tmp";
-import { FitBaseType, Types } from "./types";
-import { Length } from "./length";
-import { FitRecord } from "./record";
+import { CoursePoint, DeveloperDataId, Device, DiveGas, FitEvent, FieldDescription, FileId, FitBaseType, FitRecord, HRV, Lap, Length, Monitoring, MonitoringInfo, Session, Sport, StressLevel, Types } from "./messages";
 
 export type SpeedUnit = "m/s" | "mph" | "km/h";
 export type LengthUnit = "m" | "mi" | "km";
 export type TemperatureUnit = "celsius" | "kelvin" | "fahrenheit";
 
-export type UnitSet<T> = { [key: T]: Unit }
+export type UnitSet= { [key: string]: Unit }
 
 export type Options = {
-  speedUnits: UnitSet<SpeedUnit>;
-  lengthUnits: UnitSet<LengthUnit>;
-  temperatureUnits: UnitSet<TemperatureUnit>;
+  speedUnits: UnitSet;
+  lengthUnits: UnitSet;
+  temperatureUnits: UnitSet;
 };
 
 export interface Unit {

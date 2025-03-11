@@ -1,4 +1,6 @@
-export const mapDataIntoLap = (inputLaps, lapKey, data) => {
+import { ExtendedLap, FitRecord, Lap, Length, Session } from "./messages";
+
+export const mapDataIntoLap = (inputLaps: ExtendedLap[], lapKey: "records" | "lengths", data: FitRecord[] | Length []): ExtendedLap[] => {
   const laps = [...inputLaps];
   let index = 0;
   for (let i = 0; i < laps.length; i++) {
@@ -11,9 +13,9 @@ export const mapDataIntoLap = (inputLaps, lapKey, data) => {
       const row = data[j];
       if (nextLap) {
         const timestamp = new Date(row.timestamp).getTime();
-        if (lapStartTime <= timestamp && nextLapStartTime > timestamp) {
+        if (lapStartTime <= timestamp && nextLapStartTime && nextLapStartTime > timestamp) {
           tempData.push(row);
-        } else if (nextLapStartTime <= timestamp) {
+        } else if (nextLapStartTime && nextLapStartTime <= timestamp) {
           index = j;
           break;
         }
@@ -30,7 +32,7 @@ export const mapDataIntoLap = (inputLaps, lapKey, data) => {
   return laps;
 };
 
-export const mapDataIntoSession = (inputSessions, laps) => {
+export const mapDataIntoSession = (inputSessions: Session[], laps: Lap[]): Session[] => {
   const sessions = [...inputSessions];
   let lapIndex = 0;
   for (let i = 0; i < sessions.length; i++) {
@@ -43,9 +45,9 @@ export const mapDataIntoSession = (inputSessions, laps) => {
       const lap = laps[j];
       if (nextSession) {
         const lapStartTime = new Date(lap.start_time).getTime();
-        if (sessionStartTime <= lapStartTime && nextSessionStartTime > lapStartTime) {
+        if (sessionStartTime <= lapStartTime && nextSessionStartTime && nextSessionStartTime > lapStartTime) {
           tempLaps.push(lap);
-        } else if (nextSessionStartTime <= lapStartTime) {
+        } else if (nextSessionStartTime && nextSessionStartTime <= lapStartTime) {
           lapIndex = j;
           break;
         }
