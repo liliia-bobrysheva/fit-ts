@@ -352,7 +352,9 @@ export function readRecord(blob: Uint8Array, messageTypes: MessageTypeDefinition
             } else {
                 const { field, type, scale, offset } = message.getAttributes(fDef.fDefNo) || { field: null, type: null };
 
-                if (field !== 'unknown' && field !== '' && field !== undefined) {
+                // TODO: investigate why this line works differently than in the original code (without null check)
+                if (field !== 'unknown' && field !== '' && field !== undefined && field !== null) {
+                //if (field !== 'unknown' && field !== '' && field !== undefined) {
                     fields[field] = applyOptions(formatByType(data, type, scale, offset), field, options);
                 }
             }
