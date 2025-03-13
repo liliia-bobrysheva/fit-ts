@@ -5,6 +5,8 @@ import { FITObjectCascade, FITObjectList, MessageTypeDefinition, ParserOptions }
 import { FITObject } from './interfaces';
 import { CoursePoint, DeveloperDataId, Device, DiveGas, FieldDescription, FileId, FitEvent, FitRecord, HRV, Length, Monitoring, MonitoringInfo, Session, Sport, StressLevel, ExtendedLap } from "./messages";
 
+
+export type FitParserCallback = (error: string | null, data: FITObject | {}) => void;
 export default class FitParser {
   options: ParserOptions; // TODO private?
 
@@ -19,7 +21,7 @@ export default class FitParser {
     };
   }
 
-  parse(content: Buffer, callback: (error: string | null, data: FITObject | {}) => void) {
+  parse(content: Buffer, callback: FitParserCallback) {
     const blob: Uint8Array = new Uint8Array(getArrayBuffer(content));
 
     if (blob.length < 12) {
