@@ -1,5 +1,5 @@
-var FitParser = require('./../dist/fit-parser.js').default;
-var fs = require('fs');
+import FitParser from '../dist/fit-parser.js';
+import fs from 'fs';
 
 var file = process.argv[2];
 

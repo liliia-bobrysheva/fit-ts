@@ -1,3 +1,6 @@
+#Typescript migration:
+@liliia-bobrysheva (https://github.com/liliia-bobrysheva/fit-parse)
+
 #ES6 FIT file parser:
 @jimmykane (https://github.com/jimmykane/fit-parser)
 
