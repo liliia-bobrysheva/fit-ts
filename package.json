@@ -33,6 +33,7 @@
     "@types/node": "^22.13.10",
     "chai": "^3.4.1",
     "del": "^2.2.0",
+    "dts-bundle-generator": "^9.5.1",
     "eslint": "^2.8.0",
     "eslint-config-airbnb": "^8.0.0",
     "eslint-plugin-import": "^1.6.1",
@@ -59,6 +60,7 @@
   },
   "scripts": {
     "example-output": "node examples/example.js examples/example.fit > examples/output.json",
+    "example-output-tank": "node examples/example.js examples/example-diving.fit > examples/output-diving.json",
     "example-output-summary-first": "node examples/example.js examples/triathlon_summary_first.fit > examples/output_summary_first.json",
     "example-output-summary-last": "node examples/example.js examples/triathlon_summary_last.fit > examples/output_summary_last.json",
     "example": "node ./node_modules/gulp/bin/gulp.js; node examples/example.js examples/triathlon_summary_first.fit",

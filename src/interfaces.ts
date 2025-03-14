@@ -3,6 +3,7 @@ import { CoursePoint, DeveloperDataId, Device, DiveGas, FitEvent, FieldDescripti
 export type SpeedUnit = "m/s" | "mph" | "km/h";
 export type LengthUnit = "m" | "mi" | "km";
 export type TemperatureUnit = "celsius" | "kelvin" | "fahrenheit";
+export type PressureUnit = "cbar" | "bar" | "psi";
 
 export type UnitSet= { [key: string]: Unit }
 
@@ -10,6 +11,7 @@ export type Options = {
   speedUnits: UnitSet;
   lengthUnits: UnitSet;
   temperatureUnits: UnitSet;
+  pressureUnits: UnitSet;
 };
 
 export interface Unit {
@@ -74,7 +76,9 @@ export type MessageName =
   | "dive_settings"
   | "dive_gas"
   | "dive_alarm"
-  | "dive_summary";
+  | "dive_summary"
+  | "tank_update"
+  | "tank_summary";
 
 export interface MessageAttributes {
   field: AllTypes | string; // string is added here because custom fields with basic types are not present in AllTypes
@@ -104,6 +108,7 @@ export interface ParserOptions {
   lengthUnit: LengthUnit;
   temperatureUnit: TemperatureUnit;
   elapsedRecordField: boolean;
+  pressureUnit: PressureUnit;
   mode: ParserMode;
 }
 
