@@ -108,6 +108,8 @@ export type MesgNum =
   | "dive_summary"
   | "jump"
   | "climb_pro"
+  | "tank_pressure"
+  | "tank_summary"
   | "mfg_range_min"
   | "mfg_range_max";
 
@@ -3734,4 +3736,18 @@ export interface StressLevel {
   field_two?: number;
   body_battery?: number;
   field_four?: number;
+}
+
+export interface TankUpdate {
+  timestamp: Date;
+  sensor: number;
+  pressure: number;
+}
+
+export interface TankSummary {
+  timestamp: Date;
+  sensor: number;
+  start_pressure: number;
+  end_pressure: number;
+  volume_used: number;
 }

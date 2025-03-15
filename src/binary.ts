@@ -1,7 +1,7 @@
 import { FIT } from './fit';
 import { getFitMessage, getFitMessageBaseType } from './functions';
 import { Buffer } from 'buffer';
-import { AllTypes, DataItem, FieldDefinition, LengthUnit, MessageTypeDefinition, MessageDataTypeTMP, Options, ParserOptions, Record, SpeedUnit, TemperatureUnit, Unit, UnitSet, DeveloperDataFieldDefinition } from './interfaces';
+import { AllTypes, DataItem, FieldDefinition, LengthUnit, MessageTypeDefinition, MessageDataTypeTMP, Options, ParserOptions, Record, SpeedUnit, TemperatureUnit, Unit, UnitSet, DeveloperDataFieldDefinition, PressureUnit } from './interfaces';
 import { FieldDescription, Types } from './messages';
 
 export function addEndian(littleEndian: boolean, bytes: number[]): number | number[] {
@@ -176,7 +176,7 @@ function isInvalidValue(data: any, type: MessageDataTypeTMP | string): boolean {
     }
 }
 
-function convertTo(data: any, unitsList: keyof Options, speedUnit: SpeedUnit | LengthUnit | TemperatureUnit): number {
+function convertTo(data: any, unitsList: keyof Options, speedUnit: SpeedUnit | LengthUnit | TemperatureUnit | PressureUnit): number {
     const unitSet = FIT.options[unitsList];
     const unitObj: Unit = unitSet[speedUnit as SpeedUnit | LengthUnit | TemperatureUnit];
     return unitObj ? data * unitObj.multiplier + unitObj.offset : data;
@@ -222,6 +222,10 @@ function applyOptions(data: any, field: string, options: ParserOptions) {
         case 'avg_temperature':
         case 'max_temperature':
             return convertTo(data, 'temperatureUnits', options.temperatureUnit);
+        case 'pressure':
+        case 'start_pressure':
+        case 'end_pressure':
+            return convertTo(data, 'pressureUnits', options.pressureUnit);
         default:
             return data;
     }
