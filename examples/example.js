@@ -9,6 +9,7 @@ fs.readFile(file, function (err, content) {
     speedUnit: 'km/h',
     lengthUnit: 'm',
     temperatureUnit: 'celsius',
+    pressureUnit: 'bar',
     elapsedRecordField: true,
     mode: 'both',
   });

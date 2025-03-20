@@ -3,12 +3,13 @@ import { mapDataIntoSession, mapDataIntoLap } from './helper.js';
 export default class FitParser {
     constructor(options = {}) {
         this.options = {
-            force: (options === null || options === void 0 ? void 0 : options.force) != null ? options.force : true,
-            speedUnit: (options === null || options === void 0 ? void 0 : options.speedUnit) || 'm/s',
-            lengthUnit: (options === null || options === void 0 ? void 0 : options.lengthUnit) || 'm',
-            temperatureUnit: (options === null || options === void 0 ? void 0 : options.temperatureUnit) || 'celsius',
-            elapsedRecordField: (options === null || options === void 0 ? void 0 : options.elapsedRecordField) || false,
-            mode: (options === null || options === void 0 ? void 0 : options.mode) || 'list',
+            force: options.force != null ? options.force : true,
+            speedUnit: options.speedUnit || 'm/s',
+            lengthUnit: options.lengthUnit || 'm',
+            temperatureUnit: options.temperatureUnit || 'celsius',
+            elapsedRecordField: options.elapsedRecordField || false,
+            pressureUnit: options.pressureUnit || 'bar',
+            mode: options.mode || 'list',
         };
     }
     parse(content, callback) {
@@ -81,6 +82,8 @@ export default class FitParser {
         const file_ids = []; // TODO add type
         const monitor_info = []; // TODO add type
         const lengths = []; // TODO add type
+        const tank_updates = [];
+        const tank_summaries = [];
         let loopIndex = headerLength;
         const messageTypes = [];
         const developerFields = [];
@@ -164,6 +167,12 @@ export default class FitParser {
                 case 'software':
                     fitObj.software = message;
                     break;
+                case 'tank_update':
+                    tank_updates.push(message);
+                    break;
+                case 'tank_summary':
+                    tank_summaries.push(message);
+                    break;
                 default:
                     if (messageType) {
                         fitObj[messageType] = message;
@@ -203,6 +212,8 @@ export default class FitParser {
             fitObj.file_ids = file_ids;
             fitObj.monitor_info = monitor_info;
             fitObj.definitions = definitions;
+            fitObj.tank_updates = tank_updates;
+            fitObj.tank_summaries = tank_summaries;
         }
         callback(null, fitObj);
     }

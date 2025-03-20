@@ -3,6 +3,8 @@ const metersInOneKilometer = 1000;
 const secondsInOneHour = 3600;
 // according to https://en.wikipedia.org/wiki/Mile
 const metersInOneMile = 1609.344;
+const centiBarsInOneBar = 100;
+const psiInOneBar = 14.5037738;
 export const FIT = {
     scConst: 180 / Math.pow(2, 31),
     options: {
@@ -56,6 +58,20 @@ export const FIT = {
                 multiplier: 9 / 5,
                 offset: 32
             }
+        },
+        pressureUnits: {
+            cbar: {
+                multiplier: 1,
+                offset: 0,
+            },
+            bar: {
+                multiplier: 1 / centiBarsInOneBar,
+                offset: 0,
+            },
+            psi: {
+                multiplier: (1 / centiBarsInOneBar) * psiInOneBar,
+                offset: 0,
+            },
         },
     },
     messages: {
@@ -111,6 +127,8 @@ export const FIT = {
             21: { field: 'temperature_setting', type: 'display_measure', scale: null, offset: 0, units: '' },
             22: { field: 'local_id', type: 'user_local_id', scale: null, offset: 0, units: '' },
             23: { field: 'global_id', type: 'byte', scale: null, offset: 0, units: '' },
+            28: { field: 'wake_time', type: 'localtime_into_day', scale: null, offset: 0, units: '' },
+            29: { field: 'sleep_time', type: 'localtime_into_day', scale: null, offset: 0, units: '' },
             30: { field: 'height_setting', type: 'display_measure', scale: null, offset: 0, units: '' },
         },
         4: {
@@ -336,6 +354,8 @@ export const FIT = {
             134: { field: 'avg_step_length', type: 'uint16', scale: 10, offset: 0, units: 'mm' },
             137: { field: 'total_anaerobic_effect', type: 'uint8', scale: 10, offset: 0, units: '' },
             139: { field: 'avg_vam', type: 'uint16', scale: 1000, offset: 0, units: 'm/s' },
+            192: { field: 'workout_feel', type: 'uint8', scale: null, offset: 0, units: '' },
+            193: { field: 'workout_rpe', type: 'uint8', scale: 10, offset: 0, units: '' },
         },
         19: {
             name: 'lap',
@@ -841,6 +861,19 @@ export const FIT = {
             10: { field: 'dive_number', type: 'uint32', scale: null, offset: 0, units: '' },
             11: { field: 'bottom_time', type: 'uint32', scale: null, offset: 0, units: 's' }
         },
+        319: {
+            name: 'tank_update',
+            253: { field: 'timestamp', type: 'date_time', scale: null, offset: 0, units: 's' },
+            0: { field: 'sensor', type: 'uint32', scale: null, offset: 0, units: '' },
+            1: { field: 'pressure', type: 'uint16', scale: null, offset: 0, units: 'cbar' },
+        },
+        323: {
+            name: 'tank_summary',
+            0: { field: 'sensor', type: 'uint32', scale: null, offset: 0, units: '' },
+            1: { field: 'start_pressure', type: 'uint16', scale: null, offset: 0, units: 'cbar' },
+            2: { field: 'end_pressure', type: 'uint16', scale: null, offset: 0, units: 'cbar' },
+            3: { field: 'volume_used', type: 'uint16', scale: null, offset: 0, units: 'cbar' },
+        },
     },
     types: {
         file: {
@@ -953,6 +986,8 @@ export const FIT = {
             268: 'dive_summary',
             285: 'jump',
             317: 'climb_pro',
+            319: 'tank_pressure',
+            323: 'tank_summary',
             65280: 'mfg_range_min',
             65534: 'mfg_range_max',
         },
@@ -1460,6 +1495,9 @@ export const FIT = {
             1: 'rest',
             2: 'warmup',
             3: 'cooldown',
+            4: 'recovery',
+            5: 'interval',
+            6: 'other',
         },
         session_trigger: {
             0: 'activity_end',
@@ -4237,6 +4275,9 @@ export const FIT = {
         favero_product: {
             10: 'assioma_uno',
             12: 'assioma_duo',
+        },
+        localtime_into_day: {
+            0: 0,
         }
     },
 };

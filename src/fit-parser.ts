@@ -3,7 +3,7 @@ import { getArrayBuffer, calculateCRC, readRecord } from './binary';
 import { mapDataIntoSession, mapDataIntoLap } from './helper';
 import { FITObjectCascade, FITObjectList, MessageTypeDefinition, ParserOptions } from './interfaces';
 import { FITObject } from './interfaces';
-import { CoursePoint, DeveloperDataId, Device, DiveGas, FieldDescription, FileId, FitEvent, FitRecord, HRV, Length, Monitoring, MonitoringInfo, Session, Sport, StressLevel, ExtendedLap } from "./messages";
+import { CoursePoint, DeveloperDataId, Device, DiveGas, FieldDescription, FileId, FitEvent, FitRecord, HRV, Length, Monitoring, MonitoringInfo, Session, Sport, StressLevel, ExtendedLap, TankUpdate, TankSummary } from "./messages";
 
 
 export type FitParserCallback = (error: string | null, data: FITObject | {}) => void;
@@ -12,12 +12,13 @@ export default class FitParser {
 
   constructor(options: Partial<ParserOptions> = {}) {
     this.options = {
-      force: options?.force != null ? options.force : true,
-      speedUnit: options?.speedUnit || 'm/s',
-      lengthUnit: options?.lengthUnit || 'm',
-      temperatureUnit: options?.temperatureUnit || 'celsius',
-      elapsedRecordField: options?.elapsedRecordField || false,
-      mode: options?.mode || 'list',
+      force: options.force != null ? options.force : true,
+      speedUnit: options.speedUnit || 'm/s',
+      lengthUnit: options.lengthUnit || 'm',
+      temperatureUnit: options.temperatureUnit || 'celsius',
+      elapsedRecordField: options.elapsedRecordField || false,
+      pressureUnit: options.pressureUnit || 'bar',
+      mode: options.mode || 'list',
     };
   }
 
@@ -99,6 +100,8 @@ export default class FitParser {
     const file_ids: FileId[] = []; // TODO add type
     const monitor_info: MonitoringInfo[] = []; // TODO add type
     const lengths: Length[] = []; // TODO add type
+    const tank_updates: TankUpdate[] = [];
+    const tank_summaries: TankSummary[] = [];
 
     let loopIndex = headerLength;
     const messageTypes: MessageTypeDefinition[] = [];
@@ -188,6 +191,12 @@ export default class FitParser {
         case 'software':
           fitObj.software = message;
           break;
+        case 'tank_update':
+          tank_updates.push(message);
+          break;
+        case 'tank_summary':
+          tank_summaries.push(message);
+          break;
         default:
           if (messageType) {
             fitObj[messageType] = message;
@@ -228,6 +237,8 @@ export default class FitParser {
       fitObj.file_ids = file_ids;
       fitObj.monitor_info = monitor_info;
       fitObj.definitions = definitions;
+      fitObj.tank_updates = tank_updates;
+      fitObj.tank_summaries = tank_summaries;
     }
 
     callback(null, fitObj);

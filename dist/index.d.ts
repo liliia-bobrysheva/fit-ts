@@ -8,7 +8,7 @@ export type SportType = "generic" | "running" | "cycling" | "transition" | "fitn
 export type SubSport = "generic" | "treadmill" | "street" | "trail" | "track" | "spin" | "indoor_cycling" | "road" | "mountain" | "downhill" | "recumbent" | "cyclocross" | "hand_cycling" | "track_cycling" | "indoor_rowing" | "elliptical" | "stair_climbing" | "lap_swimming" | "open_water" | "flexibility_training" | "strength_training" | "warm_up" | "match" | "exercise" | "challenge" | "indoor_skiing" | "cardio_training" | "indoor_walking" | "e_bike_fitness" | "bmx" | "casual_walking" | "speed_walking" | "bike_to_run_transition" | "run_to_bike_transition" | "swim_to_bike_transition" | "atv" | "motocross" | "backcountry" | "resort" | "rc_drone" | "wingsuit" | "whitewater" | "skate_skiing" | "yoga" | "pilates" | "indoor_running" | "gravel_cycling" | "e_bike_mountain" | "commuting" | "mixed_surface" | "navigate" | "track_me" | "map" | "single_gas_diving" | "multi_gas_diving" | "gauge_diving" | "apnea_diving" | "apnea_hunting" | "virtual_activity" | "obstacle" | "all";
 export type SessionTrigger = "activity_end" | "manual" | "auto_multi_sport" | "fitness_equipment";
 export type LapTrigger = "manual" | "time" | "distance" | "position_start" | "position_lap" | "position_waypoint" | "position_marked" | "session_end" | "fitness_equipment";
-type Event$1 = "timer" | "workout" | "workout_step" | "power_down" | "power_up" | "off_course" | "session" | "lap" | "course_point" | "battery" | "virtual_partner_pace" | "hr_high_alert" | "hr_low_alert" | "speed_high_alert" | "speed_low_alert" | "cad_high_alert" | "cad_low_alert" | "power_high_alert" | "power_low_alert" | "recovery_hr" | "battery_low" | "time_duration_alert" | "distance_duration_alert" | "calorie_duration_alert" | "activity" | "fitness_equipment" | "length" | "user_marker" | "sport_point" | "calibration" | "front_gear_change" | "rear_gear_change" | "rider_position_change" | "elev_high_alert" | "elev_low_alert" | "comm_timeout";
+export type EventName = "timer" | "workout" | "workout_step" | "power_down" | "power_up" | "off_course" | "session" | "lap" | "course_point" | "battery" | "virtual_partner_pace" | "hr_high_alert" | "hr_low_alert" | "speed_high_alert" | "speed_low_alert" | "cad_high_alert" | "cad_low_alert" | "power_high_alert" | "power_low_alert" | "recovery_hr" | "battery_low" | "time_duration_alert" | "distance_duration_alert" | "calorie_duration_alert" | "activity" | "fitness_equipment" | "length" | "user_marker" | "sport_point" | "calibration" | "front_gear_change" | "rear_gear_change" | "rider_position_change" | "elev_high_alert" | "elev_low_alert" | "comm_timeout";
 export type EventType = "start" | "stop" | "consecutive_depreciated" | "marker" | "stop_all" | "begin_depreciated" | "end_depreciated" | "end_all_depreciated" | "stop_disable" | "stop_disable_all";
 export type Manufacturer = 0 | "garmin" | "garmin_fr405_antfs" | "zephyr" | "dayton" | "idt" | "srm" | "quarq" | "ibike" | "saris" | "spark_hk" | "tanita" | "echowell" | "dynastream_oem" | "nautilus" | "dynastream" | "timex" | "metrigear" | "xelic" | "beurer" | "cardiosport" | "a_and_d" | "hmm" | "suunto" | "thita_elektronik" | "gpulse" | "clean_mobile" | "pedal_brain" | "peaksware" | "saxonar" | "lemond_fitness" | "dexcom" | "wahoo_fitness" | "octane_fitness" | "archinoetics" | "the_hurt_box" | "citizen_systems" | "magellan" | "osynce" | "holux" | "concept2" | "one_giant_leap" | "ace_sensor" | "brim_brothers" | "xplova" | "perception_digital" | "bf1systems" | "pioneer" | "spantec" | "metalogics" | "4iiiis" | "seiko_epson" | "seiko_epson_oem" | "ifor_powell" | "maxwell_guider" | "star_trac" | "breakaway" | "alatech_technology_ltd" | "mio_technology_europe" | "rotor" | "geonaute" | "id_bike" | "specialized" | "wtek" | "physical_enterprises" | "north_pole_engineering" | "bkool" | "cateye" | "stages_cycling" | "sigmasport" | "tomtom" | "peripedal" | "wattbike" | "moxy" | "ciclosport" | "powerbahn" | "acorn_projects_aps" | "lifebeam" | "bontrager" | "wellgo" | "scosche" | "magura" | "woodway" | "elite" | "nielsen_kellerman" | "dk_city" | "tacx" | "direction_technology" | "magtonic" | "1partcarbon" | "inside_ride_technologies" | "sound_of_motion" | "stryd" | "icg" | "mipulse" | "bsx_athletics" | "look" | "campagnolo_srl" | "body_bike_smart" | "praxisworks" | "limits_technology" | "topaction_technology" | "cosinuss" | "fitcare" | "magene" | "giant_manufacturing_co" | "tigrasport" | "salutron" | "technogym" | "bryton_sensors" | "latitude_limited" | "soaring_technology" | "igpsport" | "thinkrider" | "gopher_sport" | "waterrower" | "orangetheory" | "inpeak" | "kinetic" | "johnson_health_tech" | "polar_electro" | "seesense" | "nci_technology" | "development" | "healthandlife" | "lezyne" | "scribe_labs" | "zwift" | "watteam" | "recon" | "favero_electronics" | "dynovelo" | "strava" | "precor" | "bryton" | "sram" | "navman" | "cobi" | "spivi" | "mio_magellan" | "evesports" | "sensitivus_gauge" | "podoon" | "life_time_fitness" | "falco_e_motors" | "minoura" | "cycliq" | "luxottica" | "trainer_road" | "the_sufferfest" | "fullspeedahead" | "virtualtraining" | "feedbacksports" | "omata" | "vdo" | "magneticdays" | "hammerhead" | "kinetic_by_kurt" | "shapelog" | "dabuziduo" | "jetblack" | "coros" | "virtugo" | "velosense" | "actigraphcorp";
 export type ANTPlusDeviceType = 0 | "antfs" | "bike_power" | "environment_sensor_legacy" | "multi_sport_speed_distance" | "control" | "fitness_equipment" | "blood_pressure" | "geocache_node" | "light_electric_vehicle" | "env_sensor" | "racquet" | "control_hub" | "muscle_oxygen" | "bike_light_main" | "bike_light_shared" | "exd" | "bike_radar" | "weight_scale" | "heart_rate" | "bike_speed_cadence" | "bike_cadence" | "bike_speed" | "stride_speed_distance";
@@ -57,7 +57,7 @@ export interface FieldDescription {
 }
 export interface FitEvent {
 	timestamp: Date;
-	event: Event$1;
+	event: EventName;
 	event_type: EventType;
 	data: number;
 	data16?: number;
@@ -305,6 +305,7 @@ export interface Sport {
 export type SpeedUnit = "m/s" | "mph" | "km/h";
 export type LengthUnit = "m" | "mi" | "km";
 export type TemperatureUnit = "celsius" | "kelvin" | "fahrenheit";
+export type PressureUnit = "cbar" | "bar" | "psi";
 export type ParserMode = "cascade" | "list" | "both";
 export interface ParserOptions {
 	force: boolean;
@@ -312,6 +313,7 @@ export interface ParserOptions {
 	lengthUnit: LengthUnit;
 	temperatureUnit: TemperatureUnit;
 	elapsedRecordField: boolean;
+	pressureUnit: PressureUnit;
 	mode: ParserMode;
 }
 export interface FITObject {

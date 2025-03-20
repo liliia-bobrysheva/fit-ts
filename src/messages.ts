@@ -108,6 +108,8 @@ export type MesgNum =
   | "dive_summary"
   | "jump"
   | "climb_pro"
+  | "tank_pressure"
+  | "tank_summary"
   | "mfg_range_min"
   | "mfg_range_max";
 
@@ -560,7 +562,7 @@ export type SportEvent =
   | "transportation"
   | "touring";
 export type Activity = "manual" | "auto_multi_sport";
-export type Intensity = "active" | "rest" | "warmup" | "cooldown";
+export type Intensity = "active" | "rest" | "warmup" | "cooldown" | "recovery" | "interval" | "other";
 export type SessionTrigger =
   | "activity_end"
   | "manual"
@@ -601,7 +603,7 @@ export type BacklightMode =
   | "key_and_messages_and_smart_notifications";
 export type DateMode = "day_month" | "month_day";
 export type BacklightTimeout = "infinite";
-export type Event =
+export type EventName =
   | "timer"
   | "workout"
   | "workout_step"
@@ -3109,6 +3111,7 @@ export type DiveGasStatus = "disabled" | "enabled" | "backup_only";
 export type DiveAlarmType = "depth" | "time";
 export type DiveBacklightMode = "at_depth" | "always_on";
 export type FaveroProduct = "assioma_uno" | "assioma_duo";
+export type LocaltimeIntoDay = 0;
 
 export interface Types {
   file: { [key: number]: File };
@@ -3151,7 +3154,7 @@ export interface Types {
   backlight_mode: { [key: number]: BacklightMode };
   date_mode: { [key: number]: DateMode };
   backlight_timeout: { [key: number]: BacklightTimeout };
-  event: { [key: number]: Event };
+  event: { [key: number]: EventName };
   event_type: { [key: number]: EventType };
   timer_trigger: { [key: number]: TimerTrigger };
   fitness_equipment_state: { [key: number]: FitnessEquipmentState };
@@ -3272,6 +3275,7 @@ export interface Types {
   dive_alarm_type: { [key: number]: DiveAlarmType };
   dive_backlight_mode: { [key: number]: DiveBacklightMode };
   favero_product: { [key: number]: FaveroProduct };
+  localtime_into_day: { [key: number]: LocaltimeIntoDay };
 }
 
 export type TypeNames = keyof Types;
@@ -3346,7 +3350,7 @@ export interface FileId {
 
 export interface FitEvent {
   timestamp: Date;
-  event: Event;
+  event: EventName;
   event_type: EventType;
   data: number;
   data16?: number;
@@ -3734,4 +3738,18 @@ export interface StressLevel {
   field_two?: number;
   body_battery?: number;
   field_four?: number;
+}
+
+export interface TankUpdate {
+  timestamp: Date;
+  sensor: number;
+  pressure: number;
+}
+
+export interface TankSummary {
+  timestamp: Date;
+  sensor: number;
+  start_pressure: number;
+  end_pressure: number;
+  volume_used: number;
 }
