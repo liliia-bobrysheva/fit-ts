@@ -4279,6 +4279,9 @@ export const FIT: FITInterface = {
     favero_product: {
       10: 'assioma_uno',
       12: 'assioma_duo',
+    },
+    localtime_into_day: {
+      0: 0,
     }
   },
 };
