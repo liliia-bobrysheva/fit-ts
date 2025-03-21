@@ -7,7 +7,7 @@
 ## Install
 
 ```
-$ npm install fit-parse --save
+$ npm install fit-ts --save
 ```
 
 ## How to use
@@ -16,7 +16,7 @@ See in [examples](./examples) folder:
 
 ```javascript
 // Require the module
-var FitParser = require('./../dist/fit-parse.js').default;
+var FitParser = require('./../dist/fit-parser.js').default;
 
 // Read a .FIT file
 var fs = require('fs');
@@ -80,13 +80,16 @@ Allowed properties :
 _callback_ receives two arguments, the first as a error String, and the second as Object, result of parsing.
 
 ## Contributors
+Many thanks to [Dimitrios Kanellopoulos](https://github.com/jimmykane)
+
 All started thanks to [Pierre Jacquier](https://github.com/pierremtb)
 
 Big thanks to [Mikael Lofjärd](https://github.com/mlofjard) for [his early prototype](https://github.com/mlofjard/jsonfit).
+
 See [CONTRIBUTORS](./CONTRIBUTORS.md).
 
 ## License
 
 MIT license; see [LICENSE](./LICENSE).
 
-(c) 2019 Dimitrios Kanellopoulos
+(c) 2024 Liliia Bobrysheva
